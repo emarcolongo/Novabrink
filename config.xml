@@ -2,12 +2,12 @@
 	<widget xmlns = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
 		xmlns:android = "http://schemas.android.com/apk/res/android"
-		id        = "com.asctbinf.novabrink"
+		id = "com.asctbinf.novabrink"
 		versionCode=""
-		version   = "1.0.0">
-		<name>Novabrink		</name>
-		<description>Aplicativo para representantes comerciais		</description>
-		<author href="http://asctbinf.com" email="alexandre@asctbinf.com">PhoneGap Team		</author>
+		version = "1.0.0">
+		<name>Novabrink</name>
+		<description>Aplicativo para representantes comerciais</description>
+		<author href="http://asctbinf.com" email="alexandre@asctbinf.com">PhoneGap Team</author>
 		<feature name="http://api.phonegap.com/1.0/battery" />
 		<feature name="http://api.phonegap.com/1.0/camera" />
 		<feature name="http://api.phonegap.com/1.0/contacts" />
