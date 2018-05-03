@@ -37,11 +37,11 @@
                 <form id="f1006">
                   <div class="form-group">
                     <label>ID Vendedor</label>
-                    <input class="form-control" id="i1006_Numero" type="text" maxlength="6" style="text-transform:uppercase" value="R-507">
+                    <input class="form-control" id="i1006_Numero" type="text" maxlength="6" style="text-transform:uppercase">
                   </div>
                   <div class="form-group">
                     <label>Senha</label>
-                    <input class="form-control" id="i1006_Senha" type="password" maxlength="12" style="text-transform:uppercase" value="MASTER">
+                    <input class="form-control" id="i1006_Senha" type="password" maxlength="12" style="text-transform:uppercase">
                   </div>
                     <div class="row">
                       <div class="col-md-4"><a class="btn btn-primary btn-block" id="btnEntrar" style="color: white">Entrar</a></div>
@@ -57,7 +57,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">  <!-- Modal Header -->
-                        <i class="fas fa-exclamation-circle fa-2x" style="color:red"></i><h6 class="modal-title">Novabrink</h6>
+                        <i class="fas fa-exclamation-circle fa-2x" style="color:red"></i><h6 class="modal-title">Plastoy</h6>
                     </div>
                     <div class="modal-body">    <!-- Modal body -->
                         <p style="font-family: 'Tahoma'; font-size: small" id="i1006_ErroMsg"></p>
@@ -69,5 +69,21 @@
             </div>
         </div>  <!-- The Modal -->
         
+        <!-- Modal Erro de Atualizacao -->
+        <div class="modal fade" data-backdrop="static" id="i1006_Update">    <!-- The Modal -->
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">  <!-- Modal Header -->
+                        <i class="fas fa-exclamation-circle fa-2x" style="color:red"></i><h6 class="modal-title">Plastoy</h6>
+                    </div>
+                    <div class="modal-body">    <!-- Modal body -->
+                        <p style="font-family: 'Tahoma'; font-size: small" id="i1006_UpdMsg"></p>
+                    </div>
+                    <div class="modal-footer">  <!-- Modal footer -->
+                        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>  <!-- The Modal -->
     </body>
 </html>

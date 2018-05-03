@@ -228,6 +228,10 @@ function btnAcesso(e)
                 avec1005();
                 avec1007();
                 avec1035();
+                
+                $('#i1006_UpdMsg').html("<strong>Concluido.</strong></br>Dados Atualizados com Sucesso");
+                $('#i1006_Update').modal('show');
+                
                 //location.href='dash.html';
             } else {
                 $('#i1006_ErroMsg').html("<strong>Login inválido.</strong></br>Por favor, verifique seu ID Vendedor e Senha");
