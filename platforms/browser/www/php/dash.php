@@ -13,7 +13,7 @@ function avec1007()
 
     $username = 'asinfo';
     $password = 'as12*';
-    $conn = new PDO('sqlsrv:Server=138.97.105.135;Database=novabrink', $username, $password);
+    $conn = new PDO('sqlsrv:Server=138.97.105.135;Database=brasilflex', $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $data = $conn->prepare('SELECT numero, nome, unitario, qtde_emb FROM avec1007 ORDER BY numero');
     $data->execute();

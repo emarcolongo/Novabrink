@@ -30,41 +30,43 @@
         <script type="text/javascript" src="cordova.js"></script>
         <div id="navbar">
             <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-              <a class="navbar-brand" href="#"> <img src="/imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">  Plastoy</a>
+              <a class="navbar-brand" href="#"> <img src="imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">  Plastoy</a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item active">
-                    <a class="nav-link" href="#">Inicio<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#" onclick="location.href='dash.html'">Inicio<span class="sr-only">(current)</span></a>
                   </li>
                   <li class="nav-item active">
-                    <a class="nav-link" href="#">Pedidos<span class="sr-only"></span></a>
+                    <a class="nav-link" href="#" onclick="location.href='pedido.html'">Pedidos<span class="sr-only"></span></a>
                   </li>
                   <li class="nav-item active">
-                    <a class="nav-link" href="location.href='index.html'">Sair<span class="sr-only"></span></a>
+                    <a class="nav-link" href="#" onclick="location.href='index.html'">Sair<span class="sr-only"></span></a>
                   </li>
                 </ul>
               </div>
             </nav>
         </div>
         
-        <div class="col-md-8" id=container>
+        <div class="col-md-10" id=container>
             <div class="card card-login mx-auto mt-4">
-              <div class="card-header"><i class="fas fa-sign-in-alt"></i> Lista de Produtos</div>
+              <div class="card-header"><i class="fas fa-sign-in-alt"></i> Lista de Pedidos</div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-8">
-                        <table class="table table-sm table-hover" id="grid_1007">
+                        <div class="col-md-10">
+                        <table class="table table-sm table-hover" id="i1018_Grid">
                             <thead>
                             <tr>
                                 <th>Numero</th>
+                                <th>Cliente</th>
                                 <th>Nome</th>
+                                <th>Itens</th>
+                                <th>Total</th>
                             </tr>
                             </thead>
                             <tbody>
-                                
                             </tbody>
                         </table>
                         </div>

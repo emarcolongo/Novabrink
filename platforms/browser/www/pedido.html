@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Vendas</title>
+        <!-- Scripts JQuery -->
+        <script src="jquery/jquery.js"></script>
+        <script src="jquery/jquery.mobile-1.4.0-rc.1.js"></script>
+        <!-- Scripts BootStrap -->        
+        <script src="bootstrap/js/bootstrap.bundle.js"></script>
+        <script src="bootstrap/js/bootstrap.js"></script>
+        <!-- Scripts Personalizados -->
+        <script src="js/pedido.js"></script>
+        <script src="js/valida_cpf_cnpj.js"></script>
+        <!-- CSS Bootstrap -->
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">        
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-grid.css">
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-reboot.css">
+        <!-- CSS Personalizados  -->
+        <link rel="stylesheet" type="text/css" href="css/estilo.css">
+        
+        <script>
+            window.onload=function ()
+            {
+                default_1005();
+                default_1006();
+                default_1035();
+
+                $("#i1018_Cliente").focus();
+                $("#ibtn_Cliente").click(function(){ default_1001(); });
+                $("#ibtn_Prod").click(function(){ default_1007(); });
+                $("#ibtn_Inserir").click(function(){ default_1020(); });
+            }            
+        </script>
+    </head>
+    <body>
+        <script type="text/javascript" src="cordova.js"></script>
+        <div id="navbar">
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+              <a class="navbar-brand" href="#"> <img src="imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">  Plastoy</a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="location.href='dash.html'">Inicio<span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="location.href='pedido.html'">Pedidos<span class="sr-only"></span></a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="location.href='index.html'">Sair<span class="sr-only"></span></a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+        </div>
+        
+        <div class="col-md-10" id=container>
+            <div class="card card-login mx-auto">
+              <div class="card-header">Pedidos</div>
+                <div class="card-body">
+                    <form method="post" id="i1018">
+                        <div class="form-group">
+                            <div class="col-md-10" id="i1018_header">
+                                <label>Nr Pedido:<input type="text" class="form-control form-control-sm" id="i1018_Numero" size="5" maxlength="20" disabled></label>&nbsp;&nbsp;
+                                <label>Cod.Vendedor:<input type="text" class="form-control form-control-sm" id="i1018_Vendedor" size="5" maxlength="20" disabled></label>
+                                <br>
+                                <label>CNPJ:<input type="text" class="form-control form-control-sm" id="i1018_Cliente" size="20" maxlength="20" style="text-transform:uppercase" required="required"></label>
+                                <button type="button" class="btn btn-outline-secondary align-baseline" id="ibtn_Cliente" >...</button>&nbsp;
+                                <label>Razao Social:<input type="text" class="form-control form-control-sm" id="i1001_Nome" size="60" maxlength="60" style="text-transform:uppercase" required="required"></label>
+                                <br>
+                                <label>Fone:<input type="text" class="form-control form-control-sm" id="i1001_Fone" size="20" maxlength="20" style="text-transform:uppercase" required="required"></label>&nbsp;
+                                <label>E-Mail:<input type="email" class="form-control form-control-sm" id="i1001_Email" size="55" maxlength="60" style="text-transform:lowercase" required="required"></label>
+                                <label>UF:<input type="text" class="form-control form-control-sm" id="i1001_Uf" size="4" maxlength="2" style="text-transform:uppercase" required="required"></label>
+                                <br>
+                                <label>Observações:<textarea class="form-control form-control-sm" id="i1018_Obs" rows="3" cols="93"></textarea></label>
+                                <br>                        
+                                <label>Cond.Pagto:<select class="form-control form-control-sm" id="i1005_Numero"></select></label>&nbsp;&nbsp;
+                                <label>Tab.Preco:<select class="form-control form-control-sm"  id="i1035_Numero"></select></label>
+                                <br>
+                                <label>Desc:<input type="number" class="form-control form-control-sm" id="i1018_Desc1" size="5" maxlength="10" style="text-transform:uppercase" required="required"></label>&nbsp;
+                                <label>Desc:<input type="number" class="form-control form-control-sm" id="i1018_Desc2" size="5" maxlength="10" style="text-transform:uppercase" required="required"></label>&nbsp;
+                                <label>Desc:<input type="number" class="form-control form-control-sm" id="i1018_Desc3" size="5" maxlength="10" style="text-transform:uppercase" required="required"></label>&nbsp;
+                                <br>
+                                <label>Total Pedido:<input type="text" class="form-control form-control-sm" id="i1018_Total" size="10" readonly="true" tabindex="-1"></label>&nbsp;&nbsp;&nbsp;
+                                <button type="button" class="btn btn-primary align-baseline" data-toggle="modal" data-target="#iModal" id="ibtn_Confirmar">Novo Pedido</button>
+                            </div>
+                            <br>
+                            <div class="col-md-10" id="i1018_body">
+                                <label>Produto:<input type="number" class="form-control form-control-sm" id="i1020_Prod" min="1" max="9999"></label>
+                                <button type="button" class="btn btn-outline-secondary align-baseline" id="ibtn_Prod">...</button>&nbsp;
+                                <label>Descricao:<input type="text" class="form-control form-control-sm" id="i1007_Nome" size="25" maxlength="60" style="text-transform:uppercase" readonly="true" tabindex="-1"></label>
+                                <label>Emb:<input type="text" class="form-control form-control-sm" id="i1007_Emb" size="3" maxlength="5" style="text-transform:uppercase" readonly="true" tabindex="-1"></label>
+                                <label>Unit:<input type="text" class="form-control form-control-sm" id="i1020_Preco" size="8" maxlength="6" readonly="true" tabindex="-1"></label>                            
+                                <label>Qtde:<input type="number" class="form-control form-control-sm" id="i1020_Qtde" min="1" max="9999"></label>&nbsp;
+                                <button type="button" class="btn btn-primary align-baseline" id="ibtn_Inserir">Inserir</button>
+                                <br>
+                            </div>
+                            <div class="col-md-10 table-responsive" id="i1018_item">
+                                <table class="table table-sm table-hover" id="i1020_Grid">
+                                    <thead class="thead-light">
+                                        <tr>
+                                        <th>Produto</th>
+                                        <th>Descricao</th>
+                                        <th>Qtde</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Modal: Geracao Pedido -->
+                            <div class="modal fade" id="iModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="exampleModalLabel">Cadastro de Pedido</h6>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span></button>
+                                        </div>
+                                        <div class="modal-body"><p style="font-family: 'Tahoma'; font-size: small">Confirma a geração de um novo Pedido ?</p></div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary btn-sm" id="iSubmit" data-dismiss="modal" onclick="location.href='pedido.html'">Sim, Gerar Novo Pedido</button>
+                                            <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>        
+                            <!-- The Modal: Nr.do Pedido -->
+                            <div class="modal fade" data-backdrop="static" id="myModal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header"><h6 class="modal-title">Cadastro de Pedidos</h6></div>
+                                        <div class="modal-body"><p style="font-family: 'Tahoma'; font-size: small" id="myNro"></p></div>
+                                        <div class="modal-footer"><button type="submit" class="btn btn-danger btn-sm">Fechar</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- The Modal: Erro -->
+                            <div class="modal fade" data-backdrop="static" id="myError">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header"><i class="fas fa-exclamation-circle fa-2x" style="color:red"></i><h6 class="modal-title">Cadastro de Pedidos</h6></div>
+                                        <div class="modal-body"><p style="font-family: 'Tahoma'; font-size: small" id="myErroMsg"></p></div>
+                                        <div class="modal-footer"><button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal: Fim -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        
+    </body>
+</html>
