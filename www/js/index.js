@@ -18,6 +18,10 @@ var regs_1007 = localStorage.getItem('NB1007');
 regs_1007 = JSON.parse(regs_1007);
 if (regs_1007 == null) { regs_1007 = [] };
 
+var regs_1011 = localStorage.getItem('NB1011');
+regs_1011 = JSON.parse(regs_1011);
+if (regs_1011 == null) { regs_1011 = [] };
+
 var regs_1017 = localStorage.getItem('NB1017');
 regs_1017 = JSON.parse(regs_1017);
 avec1017();
@@ -33,6 +37,10 @@ if (regs_1020 == null) { regs_1020 = [] };
 var regs_1035 = localStorage.getItem('NB1035');
 regs_1035 = JSON.parse(regs_1035);
 if (regs_1035 == null) { regs_1035 = [] };
+
+var regs_1080 = localStorage.getItem('NB1080');
+regs_1080 = JSON.parse(regs_1080);
+if (regs_1080 == null) { regs_1080 = [] };
 
 function localizar_produto(sNumero)
 {
@@ -60,7 +68,8 @@ function avec1017()
     if (regs_1017 == null) { 
         regs_1017 = [];
         var record = JSON.stringify({
-            versao      :  '1.0'
+            versao      :  '1.0',
+            pedido      :  '0'
             });    
         regs_1017.push(record);
         localStorage.setItem('NB1017', JSON.stringify(regs_1017));
@@ -74,7 +83,7 @@ function avec1001(sVendedor)
 {
     $.ajax({
         type: 'POST',
-        url: 'http://www.asctbinf.com/vendas/phonegap/dados.php',
+        url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
         dataType: "json",
         data:({"ID"     : "F1001",
                "VEND"   : sVendedor}),
@@ -107,7 +116,7 @@ function avec1005()
 {
     $.ajax({
         type: 'POST',
-        url: 'http://www.asctbinf.com/vendas/phonegap/dados.php',
+        url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
         dataType: "json",
         data:({"ID" :"F1005" }),
         success: function (data) {
@@ -136,7 +145,7 @@ function avec1007()
 {
     $.ajax({
         type: 'POST',
-        url: 'http://www.asctbinf.com/vendas/phonegap/dados.php',
+        url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
         dataType: "json",
         data:({"ID" :"F1007" }),
         success: function (data) {
@@ -163,6 +172,34 @@ function avec1007()
     //localizar_produto(1300);
 }
 
+function avec1011()
+{
+    $.ajax({
+        type: 'POST',
+        url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+        dataType: "json",
+        data:({"ID" :"F1011" }),
+        success: function (data) {
+            if (data.nome != "") {
+                regs_1011 = [];
+                for (var i = 0; i < data.nome.length; i++) {
+                    var record = JSON.stringify({
+                        cnpj        :  data.cnpj[i],
+                        nome        :  data.nome[i]
+                    });    
+                    regs_1011.push(record);
+                }
+                localStorage.setItem('NB1011', JSON.stringify(regs_1011));
+            }
+        },
+        error: function(xhr, textStatus, error){
+            console.log(error);
+            $('#i1006_ErroMsg').html("<strong>Erro.</strong></br>Não foi possivel atualizar os dados. Por favor, verifique sua conexão");
+            $('#i1006_Erro').modal('show');
+        }
+    });
+}
+
 function upload_avec1018()
 {
     for (var i in regs_1018) {
@@ -185,7 +222,7 @@ function upload_avec1018()
             }
             $.ajax({
                 type: 'POST',
-                url: 'http://www.asctbinf.com/vendas/phonegap/dados.php',
+                url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
                 dataType: "json",
                 data:({ "ID"        :   "U1018",
                         "NUMERO"    :   i1018.numero,
@@ -222,7 +259,7 @@ function upload_avec1001(sVendedor)
         if (i1001.status == 'I') {
             $.ajax({
                 type: 'POST',
-                url: 'http://www.asctbinf.com/vendas/phonegap/dados.php',
+                url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
                 dataType: "json",
                 data:({ "ID"                :   "U1001",
                         "CNPJ"              :   i1001.cnpj,   
@@ -249,7 +286,7 @@ function avec1035()
 {
     $.ajax({
         type: 'POST',
-        url: 'http://www.asctbinf.com/vendas/phonegap/dados.php',
+        url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
         dataType: "json",
         data:({"ID" :"F1035" }),
         success: function (data) {
@@ -264,6 +301,35 @@ function avec1035()
                     regs_1035.push(record);
                 }
                 localStorage.setItem('NB1035', JSON.stringify(regs_1035));
+            }
+        },
+        error: function(xhr, textStatus, error){
+            console.log(error);
+            $('#i1006_ErroMsg').html("<strong>Erro.</strong></br>Não foi possivel atualizar os dados. Por favor, verifique sua conexão");
+            $('#i1006_Erro').modal('show');
+        }
+    });
+}
+
+function avec1080()
+{
+    $.ajax({
+        type: 'POST',
+        url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+        dataType: "json",
+        data:({"ID" :"F1080" }),
+        success: function (data) {
+            if (data.numero != "") {
+                regs_1080 = [];
+                for (var i = 0; i < data.numero.length; i++) {
+                    var record = JSON.stringify({
+                        numero  :  data.numero[i],
+                        produto :  data.produto[i],
+                        valor   :  data.valor[i]
+                    });    
+                    regs_1080.push(record);
+                }
+                localStorage.setItem('NB1080', JSON.stringify(regs_1080));
             }
         },
         error: function(xhr, textStatus, error){
@@ -297,7 +363,7 @@ function btnAcesso(e)
     
     $.ajax({
         type: 'POST',
-        url: 'http://www.asctbinf.com/vendas/phonegap/dados.php',
+        url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
         dataType: "json",
         data:({"ID"     :"F1",
                "VEND"   : sVendedor,
@@ -321,7 +387,10 @@ function btnAcesso(e)
                 avec1001(sVendedor);
                 avec1005();
                 avec1007();
+                avec1011();
+                avec1017();
                 avec1035();
+                avec1080();
                 
                 $('#i1006_UpdMsg').html("<strong>Concluido.</strong></br>Dados Atualizados com Sucesso");
                 $('#i1006_Update').modal('show');
@@ -344,13 +413,13 @@ function btnAcesso(e)
 /********************************/
 function test_json()
 {
-    $.post( "http://www.asctbinf.com/phonegap/cliente.php", { }, function( data ) {
+    $.post( "https://www.asctbinf.com/phonegap/cliente.php", { }, function( data ) {
         console.log( data.nome ); // John
     }, "json");
     
     $.ajax({
         type: 'POST',
-        url: 'http://www.asctbinf.com/phonegap/cliente.php',
+        url: 'https://www.asctbinf.com/phonegap/cliente.php',
         dataType: "json",
         data:({ }),
         success: function (data) {
@@ -364,7 +433,7 @@ function test_json()
     var sVendedor = $("#i1006_Numero").val().toUpperCase();
     $.ajax({
         type: 'POST',
-        url: 'http://www.asctbinf.com/phonegap/vendedor.php',
+        url: 'https://www.asctbinf.com/phonegap/vendedor.php',
         dataType: "json",
         data:({
             "xID"    :   '1',
@@ -384,16 +453,22 @@ function excluir_dados()
     regs_1001 = [];
     regs_1005 = [];
     regs_1007 = [];
+    regs_1011 = [];
+    //regs_1017 = [];
     regs_1018 = [];
     regs_1020 = [];    
     regs_1035 = [];
+    regs_1080 = [];
 
     localStorage.setItem('NB1001', JSON.stringify(regs_1001));
     localStorage.setItem('NB1005', JSON.stringify(regs_1005));
     localStorage.setItem('NB1007', JSON.stringify(regs_1007));
+    localStorage.setItem('NB1011', JSON.stringify(regs_1011));
+    //localStorage.setItem('NB1017', JSON.stringify(regs_1011));
     localStorage.setItem('NB1018', JSON.stringify(regs_1018));
     localStorage.setItem('NB1020', JSON.stringify(regs_1020));
     localStorage.setItem('NB1035', JSON.stringify(regs_1035));
+    localStorage.setItem('NB1080', JSON.stringify(regs_1080));
 
     //regs_1006 = [];
     //regs_1017 = [];

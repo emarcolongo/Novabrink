@@ -18,6 +18,10 @@ var regs_1007 = localStorage.getItem('NB1007');
 regs_1007 = JSON.parse(regs_1007);
 if (regs_1007 == null) { regs_1007 = [] };
 
+var regs_1011 = localStorage.getItem('NB1011');
+regs_1011 = JSON.parse(regs_1011);
+if (regs_1011 == null) { regs_1011 = [] };
+
 var regs_1018 = localStorage.getItem('NB1018');
 regs_1018 = JSON.parse(regs_1018);
 if (regs_1018 == null) { regs_1018 = [] };
@@ -29,6 +33,10 @@ if (regs_1020 == null) { regs_1020 = [] };
 var regs_1035 = localStorage.getItem('NB1035');
 regs_1035 = JSON.parse(regs_1035);
 if (regs_1035 == null) { regs_1035 = [] };
+
+var regs_1080 = localStorage.getItem('NB1080');
+regs_1080 = JSON.parse(regs_1080);
+if (regs_1080 == null) { regs_1080 = [] };
 
 /// Excluir Linha da Grade ///////////////////////////////////////////////////////////////
 (excluir_linha = function (iLinha) {
@@ -73,6 +81,14 @@ if (regs_1035 == null) { regs_1035 = [] };
         $("#i1018_Vendedor").val(record.numero);
     }   
 })
+
+// Exibindo Cond.Pagamento //////////////////////////////////////////////////////////////
+(default_1011 = function () {
+    for (var i in regs_1011) {
+        var data = JSON.parse(regs_1011[i]);
+        $('#i1011_Cnpj').append('<option value="' + data.cnpj + '">' + data.nome + '</option>');
+    }
+});
 
 
 /// Exibindo Tabela de Preco//////////////////////////////////////////////////////////////
@@ -142,8 +158,10 @@ if (regs_1035 == null) { regs_1035 = [] };
 
 /// Funcao para localizar o produto //////////////////////////////////////////////////////
 (default_1007 = function () {
-    var sID = $("#i1020_Prod").val(),
+    var sMsg = '',
+        sID = $("#i1020_Prod").val(),
         sNM = "",
+        sTB = $("#i1035_Numero option:selected").val(),
         nUN = 0;
     $("#i1007_Nome").val('');
     $("#i1020_Qtde").val('');
@@ -151,13 +169,22 @@ if (regs_1035 == null) { regs_1035 = [] };
     $("#i1007_Emb").val('');
     
     var fator = $("#i1035_Numero").find(':selected').attr('data-fator');
+    console.log(sTB);
+    console.log(sID);
+    
+    for (var x in regs_1080) {
+        var rec1080 = JSON.parse(regs_1080[x]);
+        if (rec1080.numero == sTB && rec1080.produto == sID) {
+            nUN = rec1080.valor;
+        }
+    }
 
     for (var i in regs_1007) {
         var record = JSON.parse(regs_1007[i]);
-        if (record.numero == sID) { 
+        if (record.numero == sID && nUN != 0) { 
             sNM = record.nome;
-            nUN = record.unitario;
-            nUN = eval(fator*nUN);
+            //nUN = record.unitario;
+            //nUN = eval(fator*nUN);
             
             $('#i1007_Nome').val(record.nome);
             $('#i1007_Emb').val(record.qtde_emb);
@@ -166,12 +193,18 @@ if (regs_1035 == null) { regs_1035 = [] };
         };
     };
     
-    if (sNM == "") {
-        alert('Produto não Localizado');
+    if (sNM == "" || nUN == 0) {
+        sMsg = sMsg + '- Produto não localizado nesta tabela de Preço.</br>' ;
+        $("#myErroMsg").html(sMsg);
+        $('#myError').modal('show');
+        //
         $("#i1020_Prod").val('');
+        $("#i1007_Nome").val('');
+        $("#i1020_Qtde").val('');
+        $("#i1020_Preco").val('');
+        $("#i1007_Emb").val('');
         $("#i1020_Prod").focus();
     };
-
 });
 
 /// Validar Itens antes de gravar  ////////////////////////////////////////////////
@@ -220,6 +253,7 @@ if (regs_1035 == null) { regs_1035 = [] };
 
 /// Funcao para gravar o pedido ///////////////////////////////////////////////////
 (default_1018 = function (iPedido) {
+    console.log(iPedido);
     var sCNPJ = $('#i1018_Cliente').val(),
         sNome = $('#i1001_Nome').val(),
         dData = new Date(),
@@ -239,11 +273,13 @@ if (regs_1035 == null) { regs_1035 = [] };
         total       : '0',
         obs         : $('#i1018_Obs').val(),
         status      : 'A',
-        internet    : 'I'
+        internet    : 'I',
+        transportadora  :   $("#i1011_Cnpj option:selected").val()
     });
     regs_1018.push(i1018);
     localStorage.setItem("NB1018", JSON.stringify(regs_1018));
     if (sNome == 'NAO CADASTRADO') { update_1001(sCNPJ) };
+    console.log('1018:2');
 });
 
 /// Funcao para gravar itens //////////////////////////////////////////////////////
@@ -261,7 +297,7 @@ if (regs_1035 == null) { regs_1035 = [] };
         nFator   = 1,
         sNome    = '';
     
-    iPedido  = $("#i1018_Numero").val();
+    //iPedido  = $("#i1018_Numero").val();
     iProduto = $("#i1020_Prod").val();
     sNome    = $("#i1007_Nome").val();
     nPreco   = $("#i1020_Preco").val().replace(",",".");
@@ -289,7 +325,7 @@ if (regs_1035 == null) { regs_1035 = [] };
         };
     iPedido = eval(iPedido+1);
     default_1018(iPedido);
-    $('#i1018_Numero').val(iPedido);
+    //$('#i1018_Numero').val(iPedido);
     };
 
     excluir_1020(iPedido,iProduto);
@@ -306,6 +342,11 @@ if (regs_1035 == null) { regs_1035 = [] };
     localStorage.setItem("NB1020", JSON.stringify(regs_1020));
     
     document.getElementById("i1018_Cliente").disabled = true;
+    document.getElementById("i1001_Nome").disabled = true;    
+    document.getElementById("i1001_Fone").disabled = true;
+    document.getElementById("i1001_Email").disabled = true;
+    document.getElementById("i1001_Uf").disabled = true;
+    //
     document.getElementById("i1035_Numero").disabled = true; 
     document.getElementById("ibtn_Cliente").disabled = true;
     document.getElementById("i1018_Desc1").disabled = true;

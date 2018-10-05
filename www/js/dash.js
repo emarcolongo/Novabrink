@@ -43,7 +43,43 @@ function include_line(numero,cliente,nome,itens,total)
     cols += '<td>' + nome + '</td>';
     cols += '<td>' + itens + '</td>';
     cols += '<td>' + total + '</td>';
+    cols += '<td><button type="button" class="btn btn-danger btn-sm" onclick="cancelar_linha(this)">Cancelar</button></td>';
     cols += '</tr>';
     newRow.append(cols);
     $('#i1018_Grid').append(newRow);
+}
+
+function cancelar_linha(iLinha) {
+    var iPedido  = 0,
+        iProduto = 0,
+        tr = $(iLinha).closest('tr');
+    
+    iPedido = tr.find('td[data-numero]').data('numero');
+    alert(iPedido);
+    
+    for (var x in regs_1018) {
+        var record = JSON.parse(regs_1018[x]);
+        if (record.numero == iPedido) { 
+            regs_1018[x] = JSON.stringify({
+                numero          : record.numero,
+                data            : record.data,
+                cliente         : record.cliente,
+                nome            : record.nome,
+                vendedor1       : record.vendedor1,
+                tabela          : record.tabela,
+                condicao        : record.condicao,
+                desc1           : record.desc1,
+                desc2           : record.desc2,
+                desc3           : record.desc3,
+                total           : record.total,
+                obs             : record.obs,
+                status          : record.status,
+                internet        : 'C',
+                transportadora  : record.transportadora
+            });
+            localStorage.setItem("NB1018",JSON.stringify(regs_1018));
+            alert('Achei'); }
+    }
+    listAll();
+
 }

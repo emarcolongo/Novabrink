@@ -5,10 +5,12 @@ if ($_POST["ID"] == "F1") { $output = validar_usuario($_POST["VEND"],$_POST["PAS
 if ($_POST["ID"] == "F1001") { $output = avec1001($_POST["VEND"]); }
 if ($_POST["ID"] == "F1005") { $output = avec1005(); }
 if ($_POST["ID"] == "F1007") { $output = avec1007(); }
+if ($_POST["ID"] == "F1011") { $output = avec1011(); }
 if ($_POST["ID"] == "F1035") { $output = avec1035(); }
+if ($_POST["ID"] == "F1080") { $output = avec1080(); }
 
 if ($_POST["ID"] == "U1001") { $output = update_avec1001($_POST["CNPJ"],$_POST["NOME"],$_POST["EMAIL"],$_POST["TELEFONE"],$_POST["UF"],$_POST["VENDEDOR_PADRAO"]) ;}
-if ($_POST["ID"] == "U1018") { $output = update_avec1018($_POST["CLIENTE"],$_POST["VENDEDOR1"],$_POST["TABELA"],$_POST["CONDICAO"],$_POST["OBS"],
+if ($_POST["ID"] == "U1018") { $output = update_avec1018($_POST["CLIENTE"],$_POST["VENDEDOR1"],$_POST["TABELA"],$_POST["CONDICAO"],$_POST["OBS"],$_POST["TRANSPORTADORA"],
                                                          $_POST["iPRODUTO"],$_POST["iQTDE"],$_POST["iUNITARIO"],$_POST["iTOTAL"]); }
 echo $output;
 
@@ -120,6 +122,28 @@ function avec1007()
     return json_encode(array("numero"=>$numero,"nome"=>$nome,"unitario"=>$unitario,"qtde_emb"=>$qtde_emb));
 }
 
+function avec1011()
+{
+    $cnpj = array();
+    $nome = array();
+
+    $username = 'asbrf';
+    $password = 'as12*';
+    $conn = new PDO('sqlsrv:Server=138.97.105.135;Database=brasilflex', $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $data = $conn->prepare('SELECT cnpj, nome, ativo FROM avec1011 ORDER BY nome');
+    $data->execute();
+    $result = $data->fetchAll();    
+    
+    if (count($result)) {
+        foreach($result as $row) {
+            array_push($cnpj,(trim($row[0])));
+            array_push($nome,(trim($row[1])));
+        }
+    }
+    return json_encode(array("cnpj"=>$cnpj,"nome"=>$nome));
+}
+
 function avec1035()
 {
     $numero = array();
@@ -142,6 +166,32 @@ function avec1035()
         }
     }
     return json_encode(array("numero"=>$numero,"nome"=>$nome,"fator"=>$fator));
+}
+
+function avec1080()
+{
+    $numero = array();
+    $produto = array();
+    $valor = array();
+    $data = array();
+
+    $username = 'asbrf';
+    $password = 'as12*';
+    $conn = new PDO('sqlsrv:Server=138.97.105.135;Database=brasilflex', $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $data = $conn->prepare('SELECT numero, produto, valor, data FROM avec1080 ORDER BY numero');
+    $data->execute();
+    $result = $data->fetchAll();    
+    
+    if (count($result)) {
+        foreach($result as $row) {
+            array_push($numero,(trim($row[0])));
+            array_push($produto,(trim($row[1])));
+            array_push($valor,(trim($row[2])));
+            array_push($data,(trim($row[3])));
+        }
+    }
+    return json_encode(array("numero"=>$numero,"produto"=>$produto,"valor"=>$valor,"data"=>$data));
 }
 
 function nro_pedido()
@@ -189,7 +239,7 @@ function update_avec1001($CNPJ,$NOME,$EMAIL,$TELEFONE,$UF,$VENDEDOR_PADRAO){
     return json_encode(array("status"=>'OK'));
 }
 
-function update_avec1018($CLIENTE,$VENDEDOR1,$TABELA,$CONDICAO,$OBS,$iPRODUTO,$iQTDE,$iUNITARIO,$iTOTAL) {
+function update_avec1018($CLIENTE,$VENDEDOR1,$TABELA,$CONDICAO,$OBS,$TRANSPORTADORA,$iPRODUTO,$iQTDE,$iUNITARIO,$iTOTAL) {
     $nro        = nro_pedido();
     $VENDEDOR1  = strtoupper($VENDEDOR1);
     $OBS        = strtoupper($OBS);
@@ -203,8 +253,8 @@ function update_avec1018($CLIENTE,$VENDEDOR1,$TABELA,$CONDICAO,$OBS,$iPRODUTO,$i
     $password = 'as12*';
     $conn = new PDO('sqlsrv:Server=138.97.105.135;Database=brasilflex', $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $sql = "INSERT INTO avec1018 (numero,data,cliente,vendedor1,tabela,condicao,obs,total,internet) VALUES(
-            :numero,:data,:cliente,:vendedor1,:tabela,:condicao,:obs,:total,:internet)";
+    $sql = "INSERT INTO avec1018 (numero,data,cliente,vendedor1,tabela,condicao,obs,total,internet,transportadora) VALUES(
+            :numero,:data,:cliente,:vendedor1,:tabela,:condicao,:obs,:total,:internet,:transportadora)";
     $params = array($nro,
                     date ("Y-m-d"),
                     $CLIENTE,
@@ -213,7 +263,8 @@ function update_avec1018($CLIENTE,$VENDEDOR1,$TABELA,$CONDICAO,$OBS,$iPRODUTO,$i
                     $CONDICAO,
                     $OBS,
                     $VALOR,
-                    'I');
+                    'I',
+                    $TRANSPORTADORA);
     $insert = $conn->prepare($sql);
     $insert->execute($params);
     
@@ -230,6 +281,7 @@ function update_avec1020($NRO,$PRODUTO,$QTDE,$UNITARIO,$TOTAL){
     $username = 'asbrf';
     $password = 'as12*';
     $conn = new PDO('sqlsrv:Server=138.97.105.135;Database=brasilflex', $username, $password);
+    $conn->beginTransaction();
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $sql = "INSERT INTO avec1020 (pedido, produto, qtde, unitario, total) VALUES(
@@ -241,6 +293,7 @@ function update_avec1020($NRO,$PRODUTO,$QTDE,$UNITARIO,$TOTAL){
                     $TOTAL);
     $insert = $conn->prepare($sql);
     $insert->execute($params);
+    $conn->commit();
 }
 
 ?>
