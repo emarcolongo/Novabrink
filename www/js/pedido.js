@@ -159,33 +159,35 @@ if (regs_1080 == null) { regs_1080 = [] };
 /// Funcao para localizar o produto //////////////////////////////////////////////////////
 (default_1007 = function () {
     var sMsg = '',
-        sID = $("#i1020_Prod").val(),
+        sID = $("#i1020_Ref").val(),
         sNM = "",
         sTB = $("#i1035_Numero option:selected").val(),
+        nCl = $("#i1018_Porc_Pola option:selected").val(),
         nUN = 0;
+    $("#i1020_Prod").val('');        
     $("#i1007_Nome").val('');
     $("#i1020_Qtde").val('');
     $("#i1020_Preco").val('');
     $("#i1007_Emb").val('');
     
-    var fator = $("#i1035_Numero").find(':selected').attr('data-fator');
-    console.log(sTB);
-    console.log(sID);
-    
+    for (var x in regs_1007) {
+        var rec1007 = JSON.parse(regs_1007[x]);
+        if (rec1007.ref_internet == sID) {
+            sID = rec1007.numero;
+        }
+    }    
     for (var x in regs_1080) {
         var rec1080 = JSON.parse(regs_1080[x]);
         if (rec1080.numero == sTB && rec1080.produto == sID) {
             nUN = rec1080.valor;
         }
     }
-
     for (var i in regs_1007) {
         var record = JSON.parse(regs_1007[i]);
         if (record.numero == sID && nUN != 0) { 
             sNM = record.nome;
-            //nUN = record.unitario;
-            //nUN = eval(fator*nUN);
-            
+            if (record.royalt != 0 && nCl != 0) { nCl = 99; }
+            $('#i1020_Prod').val(record.numero);
             $('#i1007_Nome').val(record.nome);
             $('#i1007_Emb').val(record.qtde_emb);
             $('#i1020_Preco').val(nUN);
@@ -193,8 +195,9 @@ if (regs_1080 == null) { regs_1080 = [] };
         };
     };
     
-    if (sNM == "" || nUN == 0) {
+    if (sNM == "" || nUN == 0 || nCl == 99) {
         sMsg = sMsg + '- Produto não localizado nesta tabela de Preço.</br>' ;
+        if (nCl == 99) { sMsg = sMsg + '- Produto de Royalt não permite esta Class.de Venda</br>'; }
         $("#myErroMsg").html(sMsg);
         $('#myError').modal('show');
         //
@@ -253,11 +256,18 @@ if (regs_1080 == null) { regs_1080 = [] };
 
 /// Funcao para gravar o pedido ///////////////////////////////////////////////////
 (default_1018 = function (iPedido) {
-    console.log(iPedido);
     var sCNPJ = $('#i1018_Cliente').val(),
         sNome = $('#i1001_Nome').val(),
         dData = new Date(),
         sData = dData.getFullYear() + '.' + (dData.getMonth()+1) + '.' + dData.getDate();
+        
+    var nDesc1 = $('#i1018_Desc1').val(),
+        nDesc2 = 0,
+        nDesc3 = $('#i1018_Desc3').val();
+        
+    if (nDesc1 == "") { nDesc1 = 0; }
+    if (nDesc2 == "") { nDesc2 = 0; }
+    if (nDesc3 == "") { nDesc3 = 0; }
     
     var i1018 = JSON.stringify({
         numero      : iPedido,
@@ -267,19 +277,20 @@ if (regs_1080 == null) { regs_1080 = [] };
         vendedor1   : $('#i1018_Vendedor').val(),
         tabela      : $("#i1035_Numero option:selected").val(),
         condicao    : $("#i1005_Numero option:selected").val(),
-        desc1       : $('#i1018_Desc1').val(),
-        desc2       : $('#i1018_Desc2').val(),
-        desc3       : $('#i1018_Desc3').val(),
+        desc1       : nDesc1,
+        desc2       : nDesc2,
+        desc3       : nDesc3,
         total       : '0',
         obs         : $('#i1018_Obs').val(),
         status      : 'A',
         internet    : 'I',
-        transportadora  :   $("#i1011_Cnpj option:selected").val()
+        transportadora  :   $("#i1011_Cnpj option:selected").val(),
+        pedido_cliente  :   $('#i1018_Pedido_Cliente').val(),
+        porc_pola       :   $("#i1018_Porc_Pola option:selected").val(),
     });
     regs_1018.push(i1018);
     localStorage.setItem("NB1018", JSON.stringify(regs_1018));
     if (sNome == 'NAO CADASTRADO') { update_1001(sCNPJ) };
-    console.log('1018:2');
 });
 
 /// Funcao para gravar itens //////////////////////////////////////////////////////
@@ -292,30 +303,21 @@ if (regs_1080 == null) { regs_1080 = [] };
         nPreco   = 0,
         nTotal   = 0,
         nDesc1   = 0,
-        nDesc2   = 0,
-        nDesc3   = 0,
         nFator   = 1,
         sNome    = '';
     
-    //iPedido  = $("#i1018_Numero").val();
+    iPedido  = $("#i1018_Numero").val();
     iProduto = $("#i1020_Prod").val();
     sNome    = $("#i1007_Nome").val();
     nPreco   = $("#i1020_Preco").val().replace(",",".");
     nQtde    = $("#i1020_Qtde").val().replace(",",".");
     nDesc1   = $("#i1018_Desc1").val();
-    nDesc2   = $("#i1018_Desc2").val();
-    nDesc3   = $("#i1018_Desc3").val();
     
     if (nDesc1 != 0) { nDesc1 = (1-(nDesc1 / 100)) };
-    if (nDesc2 != 0) { nDesc2 = (1-(nDesc2 / 100)) };
-    if (nDesc3 != 0) { nDesc3 = (1-(nDesc3 / 100)) };
-    
     if (nDesc1 != 0) { nFator = (nFator * nDesc1 ) };
-    if (nDesc2 != 0) { nFator = (nFator * nDesc2 ) };
-    if (nDesc3 != 0) { nFator = (nFator * nDesc3 ) };
     
     nTotal   = eval(nPreco*nQtde*nFator);
-        
+    
     if (iPedido == 0) {
         for (var i in regs_1018) {
             var record = JSON.parse(regs_1018[i]);
@@ -325,7 +327,6 @@ if (regs_1080 == null) { regs_1080 = [] };
         };
     iPedido = eval(iPedido+1);
     default_1018(iPedido);
-    //$('#i1018_Numero').val(iPedido);
     };
 
     excluir_1020(iPedido,iProduto);
@@ -350,9 +351,10 @@ if (regs_1080 == null) { regs_1080 = [] };
     document.getElementById("i1035_Numero").disabled = true; 
     document.getElementById("ibtn_Cliente").disabled = true;
     document.getElementById("i1018_Desc1").disabled = true;
-    document.getElementById("i1018_Desc2").disabled = true;
     document.getElementById("i1018_Desc3").disabled = true;
-    
+
+    $('#i1018_Numero').val(iPedido);
+    $("#i1020_Ref").val('');    
     $("#i1020_Prod").val('');
     $("#i1007_Nome").val('');
     $("#i1007_Emb").val('');
@@ -388,6 +390,7 @@ if (regs_1080 == null) { regs_1080 = [] };
             $("#i1020_Grid").append(newRow);
         }
     }
+    $('#i1018_Qtde_Itens').val(regs_1020.length);
     nTotal = nTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL"});
     $('#i1018_Total').val(nTotal);
 })

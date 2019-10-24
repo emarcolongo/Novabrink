@@ -156,7 +156,9 @@ function avec1007()
                         numero      :  data.numero[i],
                         nome        :  data.nome[i],
                         unitario    :  data.unitario[i],
-                        qtde_emb    :  data.qtde_emb[i]
+                        qtde_emb    :  data.qtde_emb[i],
+                        ref_internet:  data.ref_internet[i],
+                        royalt      :  data.royalt[i]
                     });    
                     regs_1007.push(record);
                 }
@@ -220,27 +222,29 @@ function upload_avec1018()
                     items.total.push(i1020.total);
                 }
             }
-            $.ajax({
+           $.ajax({
                 type: 'POST',
                 url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
                 dataType: "json",
-                data:({ "ID"        :   "U1018",
-                        "NUMERO"    :   i1018.numero,
-                        "DATA"      :   i1018.data,
-                        "CLIENTE"   :   i1018.cliente,
-                        "VENDEDOR1" :   i1018.vendedor1,
-                        "TABELA"    :   i1018.tabela,
-                        "CONDICAO"  :   i1018.condicao,
-                        "DESC1"     :   i1018.desc1,
-                        "DESC2"     :   i1018.desc2,
-                        "DESC3"     :   i1018.desc3,
-                        "OBS"       :   i1018.obs,
-                        "iPRODUTO"  :   items.produto,
-                        "iQTDE"     :   items.qtde,
-                        "iUNITARIO" :   items.unitario,
-                        "iTOTAL"    :   items.total
+                data:({ "ID"                :   "U1019",
+                        "CLIENTE"           :   i1018.cliente,
+                        "VENDEDOR1"         :   i1018.vendedor1,
+                        "DESC1"             :   i1018.desc1,
+                        "TABELA"            :   i1018.tabela,
+                        "CONDICAO"          :   i1018.condicao,
+                        "OBS"               :   i1018.obs,
+                        "TRANSPORTADORA"    :   i1018.transportadora,
+                        "DESC1"             :   i1018.desc1,
+                        "DESC3"             :   i1018.desc3,
+                        "PEDIDO_CLIENTE"    :   i1018.pedido_cliente,
+                        "PORC_POLA"         :   i1018.porc_pola,
+                        "iPRODUTO"          :   items.produto,
+                        "iQTDE"             :   items.qtde,
+                        "iUNITARIO"         :   items.unitario,
+                        "iTOTAL"            :   items.total,
                       }),
                 success: function (data) {
+                    console.log('Pedidos Enviados:' + data.pedido);
                 },
                 error: function(xhr, textStatus, error){
                     console.log(error);
@@ -248,6 +252,7 @@ function upload_avec1018()
                     $('#i1006_Erro').modal('show');
                 }
             });
+
         }
     }
 }
@@ -464,7 +469,7 @@ function excluir_dados()
     localStorage.setItem('NB1005', JSON.stringify(regs_1005));
     localStorage.setItem('NB1007', JSON.stringify(regs_1007));
     localStorage.setItem('NB1011', JSON.stringify(regs_1011));
-    //localStorage.setItem('NB1017', JSON.stringify(regs_1011));
+    //localStorage.setItem('NB1017', JSON.stringify(regs_1017));
     localStorage.setItem('NB1018', JSON.stringify(regs_1018));
     localStorage.setItem('NB1020', JSON.stringify(regs_1020));
     localStorage.setItem('NB1035', JSON.stringify(regs_1035));

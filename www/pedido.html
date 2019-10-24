@@ -66,6 +66,9 @@
                     <form method="post" id="i1018">
                         <div class="form-group">
                             <div class="col-md-10" id="i1018_header">
+                                <label>Pedido:<input type="text" class="form-control form-control-sm" id="i1018_Numero" name="i1018_Numero" size="7" maxlength="5" readonly="true" style="text-transform:uppercase"></label>&nbsp;
+                                <label>Cod.Vendedor:<input type="text" class="form-control form-control-sm" id="i1018_Vendedor" name="i1018_Vendedor" size="7" maxlength="5" readonly="true" style="text-transform:uppercase"></label>&nbsp;
+                                <br>
                                 <label>CNPJ:<input type="text" class="form-control form-control-sm" id="i1018_Cliente" size="20" maxlength="20" style="text-transform:uppercase" required="required"></label>
                                 <button type="button" class="btn btn-outline-secondary align-baseline" id="ibtn_Cliente" >...</button>&nbsp;
                                 <label>Razao Social:<input type="text" class="form-control form-control-sm" id="i1001_Nome" size="60" maxlength="60" style="text-transform:uppercase" required="required"></label>
@@ -78,19 +81,26 @@
                                 <br>                        
                                 <label>Cond.Pagto:<select class="form-control form-control-sm" id="i1005_Numero"></select></label>&nbsp;&nbsp;
                                 <label>Tab.Preco:<select class="form-control form-control-sm"  id="i1035_Numero"></select></label>
+                                <br>
                                 <label>Transportadora:<select class="form-control form-control-sm"  id="i1011_Cnpj"></select></label>								
                                 <br>
                                 <label>Desc Canal:<input type="number" class="form-control form-control-sm" id="i1018_Desc1" size="5" maxlength="10" style="text-transform:uppercase" required="required"></label>&nbsp;
-                                <label>Desc Dif.ICMS:<input type="number" class="form-control form-control-sm" id="i1018_Desc2" size="5" maxlength="10" style="text-transform:uppercase" required="required"></label>&nbsp;
                                 <label>Desc Financeiro:<input type="number" class="form-control form-control-sm" id="i1018_Desc3" size="5" maxlength="10" style="text-transform:uppercase" required="required"></label>&nbsp;
+                                <label>Nr.Ped.Cliente:<input type="text" class="form-control form-control-sm" id="i1018_Pedido_Cliente" name="i1018_Pedido_Cliente" size="15" maxlength="20" style="text-transform:uppercase"></label>&nbsp;                    
+                                <label>Qtde Itens:<input type="text" class="form-control form-control-sm" id="i1018_Qtde_Itens" name="i1018_Qtde_Itens" size="7" maxlength="5" readonly="true" style="text-transform:uppercase"></label>&nbsp;                                                    
                                 <br>
+                                <label>Class.Venda:<select class="form-control form-control-sm" id="i1018_Porc_Pola" name="i1018_Porc_Pola">
+                                    <option value="0" data-porc="0">0%</option>
+                                    <option value="70" data-porc="70">70%</option>
+                                </select></label>&nbsp;&nbsp;
                                 <label>Total Pedido:<input type="text" class="form-control form-control-sm" id="i1018_Total" size="10" readonly="true" tabindex="-1"></label>&nbsp;&nbsp;&nbsp;
                                 <button type="button" class="btn btn-primary align-baseline" data-toggle="modal" data-target="#iModal" id="ibtn_Confirmar">Novo Pedido</button>
                             </div>
                             <br>
                             <div class="col-md-10" id="i1018_body">
-                                <label>Produto:<input type="number" class="form-control form-control-sm" id="i1020_Prod" min="1" max="9999"></label>
-                                <button type="button" class="btn btn-outline-secondary align-baseline" id="ibtn_Prod">...</button>&nbsp;
+                                <label>Ref Internet:<input type="text" class="form-control form-control-sm" id="i1020_Ref" size="5"></label>
+                                <button type="button" class="btn btn-outline-secondary align-baseline" id="ibtn_Prod">...</button>&nbsp;                                
+                                <label>Produto:<input type="text" class="form-control form-control-sm" id="i1020_Prod" size="7" readonly="true"></label>
                                 <label>Descricao:<input type="text" class="form-control form-control-sm" id="i1007_Nome" size="25" maxlength="60" style="text-transform:uppercase" readonly="true" tabindex="-1"></label>
                                 <label>Emb:<input type="text" class="form-control form-control-sm" id="i1007_Emb" size="3" maxlength="5" style="text-transform:uppercase" readonly="true" tabindex="-1"></label>
                                 <label>Unit:<input type="text" class="form-control form-control-sm" id="i1020_Preco" size="8" maxlength="6" readonly="true" tabindex="-1"></label>                            
