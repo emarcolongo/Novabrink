@@ -50,6 +50,26 @@ var regs_1080 = localStorage.getItem('NB1080');
 regs_1080 = JSON.parse(regs_1080);
 if (regs_1080 == null) { regs_1080 = [] };
 
+function resumo_load()
+{
+    var msg = "";
+    var msg = msg + "1001: " + regs_1001.length + "<br>";
+    var msg = msg + "1002: " + regs_1002.length + "<br>";
+    var msg = msg + "1005: " + regs_1005.length + "<br>";    
+    var msg = msg + "1006: " + regs_1006.length + "<br>";    
+    var msg = msg + "1007: " + regs_1007.length + "<br>";
+    var msg = msg + "1011: " + regs_1011.length + "<br>";
+    var msg = msg + "1017: " + regs_1017.length + "<br>";    
+    var msg = msg + "1018: " + regs_1018.length + "<br>";    
+    var msg = msg + "1020: " + regs_1020.length + "<br>";    
+    var msg = msg + "1050: " + regs_1050.length + "<br>";    
+    var msg = msg + "1035: " + regs_1035.length + "<br>";    
+    var msg = msg + "1080: " + regs_1080.length + "<br>";
+    
+    $('#i1006_UpdMsg').html(msg);
+    $('#i1006_Update').modal('show');    
+}
+
 function localizar_produto(sNumero)
 {
     for (var i in regs_1007) {
@@ -92,6 +112,7 @@ function avec1001(sVendedor)
     $.ajax({
         type: 'POST',
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+        async : false,
         dataType: "json",
         data:({"ID"     : "F1001",
                "VEND"   : sVendedor}),
@@ -148,6 +169,7 @@ function avec1002()
     $.ajax({
         type: 'POST',
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+        async : false,
         dataType: "json",
         data:({"ID"     : "F1002" }),
         success: function (data) {
@@ -176,6 +198,7 @@ function avec1005()
     $.ajax({
         type: 'POST',
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+        async : false,
         dataType: "json",
         data:({"ID" :"F1005" }),
         success: function (data) {
@@ -205,6 +228,7 @@ function avec1007()
     $.ajax({
         type: 'POST',
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+        async : false,
         dataType: "json",
         data:({"ID" :"F1007" }),
         success: function (data) {
@@ -238,6 +262,7 @@ function avec1011()
     $.ajax({
         type: 'POST',
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+        async : false,
         dataType: "json",
         data:({"ID" :"F1011" }),
         success: function (data) {
@@ -284,6 +309,7 @@ function upload_avec1018()
            $.ajax({
                 type: 'POST',
                 url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+                async : false,
                 dataType: "json",
                 data:({ "ID"                :   "U1019",
                         "CLIENTE"           :   i1018.cliente,
@@ -325,6 +351,7 @@ function upload_avec1001(sVendedor)
             $.ajax({
                 type: 'POST',
                 url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+                async : false,
                 dataType: "json",
                 data:({ "ID"                :   "U1001",
                         "CNPJ"              :   i1001.cnpj,   
@@ -352,6 +379,7 @@ function avec1035()
     $.ajax({
         type: 'POST',
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+        async : false,
         dataType: "json",
         data:({"ID" :"F1035" }),
         success: function (data) {
@@ -381,6 +409,7 @@ function avec1080()
     $.ajax({
         type: 'POST',
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+        async : false,
         dataType: "json",
         data:({"ID" :"F1080" }),
         success: function (data) {
@@ -429,6 +458,7 @@ function btnAcesso(e)
     $.ajax({
         type: 'POST',
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+        async : false,
         dataType: "json",
         data:({"ID"     :"F1",
                "VEND"   : sVendedor,
@@ -446,7 +476,7 @@ function btnAcesso(e)
                 localStorage.setItem('NB1006', JSON.stringify(regs_1006));
                 //
                 upload_avec1001(sVendedor);    
-                //upload_avec1018();    //28/10/2019
+                //upload_avec1018();
                 excluir_dados();
                 //
                 avec1001(sVendedor);
@@ -461,6 +491,7 @@ function btnAcesso(e)
                 $('#i1006_UpdMsg').html("<strong>Concluido.</strong></br>Dados Atualizados com Sucesso");
                 $('#i1006_Update').modal('show');
                 
+                resumo_load();
                 //location.href='dash.html';
             } else {
                 $('#i1006_ErroMsg').html("<strong>Login inválido.</strong></br>Por favor, verifique seu ID Vendedor e Senha");
