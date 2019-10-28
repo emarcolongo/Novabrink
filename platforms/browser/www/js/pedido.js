@@ -163,6 +163,8 @@ $(document).ready(function($){
     $("#i1001_Fone").val('');
     $("#i1001_Email").val('');
     $("#i1001_Uf").val('');
+    
+    alert(sID);
 
     if (formata_cpf_cnpj(sID)) {
         $("#i1018_Cliente").val(formata_cpf_cnpj(sID));
@@ -189,6 +191,7 @@ $(document).ready(function($){
     for (var i in regs_1001) {
         var record = JSON.parse(regs_1001[i]);
         if (record.cnpj == sID) { 
+            alert("localizado");
             $('#i1001_Nome').val(record.nome);
             $('#i1001_Fone').val(record.telefone);
             $('#i1001_Email').val(record.email);
