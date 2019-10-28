@@ -164,7 +164,7 @@ $(document).ready(function($){
     $("#i1001_Email").val('');
     $("#i1001_Uf").val('');
     
-    alert(sID);
+    alert("Sem Formatacao: "+sID);
 
     if (formata_cpf_cnpj(sID)) {
         $("#i1018_Cliente").val(formata_cpf_cnpj(sID));
@@ -175,6 +175,7 @@ $(document).ready(function($){
         }
 
     sID = $("#i1018_Cliente").val();
+    alert("Formatado: "+sID);
     document.getElementById("ibtn_Cliente").disabled = false;
     document.getElementById("i1018_Cliente").disabled = false;
     document.getElementById("i1001_Nome").disabled = true;
