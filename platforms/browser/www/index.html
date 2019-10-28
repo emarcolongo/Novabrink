@@ -25,6 +25,7 @@
             {
                 document.getElementById('btnEntrar').addEventListener('click', btnEntrar);
                 document.getElementById('btnAcesso').addEventListener('click', btnAcesso);
+                $("#loader").hide();
             }            
         </script>
     </head>
@@ -32,8 +33,11 @@
         <script type="text/javascript" src="cordova.js"></script>
         <div class="container">
             <div class="card card-login mx-auto mt-4">
-              <div class="card-header"><i class="fas fa-sign-in-alt"></i> Acesso ao Sistema   [v1.28.10.19-1]</div>
+              <div class="card-header"><i class="fas fa-sign-in-alt"></i> Acesso ao Sistema   [v1.28.10.19-2]</div>
               <div class="card-body">
+                <div class="alert alert-primary" role="alert" id="loader">
+                    <span id="upd_msg">Atualizando Dados. Por favor aguarde</span>
+                </div>
                 <form id="f1006">
                   <div class="form-group">
                     <label>ID Vendedor</label>

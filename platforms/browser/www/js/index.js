@@ -70,14 +70,6 @@ function resumo_load()
     $('#i1006_Update').modal('show');    
 }
 
-function localizar_produto(sNumero)
-{
-    for (var i in regs_1007) {
-        var record = JSON.parse(regs_1007[i]);
-        if (record.numero == sNumero) { console.log(record.nome) };
-    }
-}
-
 function validar_usuario(sVendedor,sPass)
 {
     var sUsuario_Valido = false;
@@ -254,7 +246,6 @@ function avec1007()
             $('#i1006_Erro').modal('show');
         }
     });
-    //localizar_produto(1300);
 }
 
 function avec1011()
@@ -440,8 +431,7 @@ function btnEntrar(e)
     var sVendedor = $("#i1006_Numero").val().toUpperCase();
     var sPass = $("#i1006_Senha").val().toUpperCase();
     sValido = (validar_usuario(sVendedor,sPass));
-    
-    console.log(sValido);
+
     if (sValido == false) {
         $('#i1006_ErroMsg').html("<strong>Login inválido.</strong></br>Por favor, verifique seu ID Vendedor e Senha");
         $('#i1006_Erro').modal('show');
@@ -452,7 +442,13 @@ function btnEntrar(e)
 
 function btnAcesso(e)
 {
-    var sVendedor = $("#i1006_Numero").val().toUpperCase();
+    $("#loader").show();
+    setTimeout(function(){ atualizar_dados(); }, 2000);
+}
+
+function atualizar_dados()
+{
+        var sVendedor = $("#i1006_Numero").val().toUpperCase();
     var sPass = $("#i1006_Senha").val().toUpperCase();
     
     $.ajax({
@@ -475,7 +471,7 @@ function btnAcesso(e)
                 regs_1006.push(record);
                 localStorage.setItem('NB1006', JSON.stringify(regs_1006));
                 //
-                upload_avec1001(sVendedor);    
+                //upload_avec1001(sVendedor);    
                 //upload_avec1018();
                 excluir_dados();
                 //
@@ -487,11 +483,12 @@ function btnAcesso(e)
                 avec1017();
                 avec1035();
                 avec1080();
-                
+
                 $('#i1006_UpdMsg').html("<strong>Concluido.</strong></br>Dados Atualizados com Sucesso");
                 $('#i1006_Update').modal('show');
-                
-                resumo_load();
+
+                $("#loader").hide();
+                //resumo_load();
                 //location.href='dash.html';
             } else {
                 $('#i1006_ErroMsg').html("<strong>Login inválido.</strong></br>Por favor, verifique seu ID Vendedor e Senha");
@@ -504,45 +501,6 @@ function btnAcesso(e)
             $('#i1006_Erro').modal('show');
         }
     });
-}
-
-
-/********************************/
-function test_json()
-{
-    $.post( "https://www.asctbinf.com/phonegap/cliente.php", { }, function( data ) {
-        console.log( data.nome ); // John
-    }, "json");
-    
-    $.ajax({
-        type: 'POST',
-        url: 'https://www.asctbinf.com/phonegap/cliente.php',
-        dataType: "json",
-        data:({ }),
-        success: function (data) {
-            console.log( data.nome + ' Ajax' );
-        },
-        error: function(xhr, textStatus, error){
-            console.log(error);
-        }
-    });            
- 
-    var sVendedor = $("#i1006_Numero").val().toUpperCase();
-    $.ajax({
-        type: 'POST',
-        url: 'https://www.asctbinf.com/phonegap/vendedor.php',
-        dataType: "json",
-        data:({
-            "xID"    :   '1',
-            "xVend"  :   sVendedor
-        }),
-        success: function (data) {
-            console.log(data.nome);
-        },
-        error: function(xhr, textStatus, error){
-            console.log(error);
-        }
-    });            
 }
 
 function excluir_dados()
