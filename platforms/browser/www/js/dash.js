@@ -60,7 +60,6 @@ function cancelar_linha(iLinha) {
         tr = $(iLinha).closest('tr');
     
     iPedido = tr.find('td[data-numero]').data('numero');
-    alert(iPedido);
     
     for (var x in regs_1018) {
         var record = JSON.parse(regs_1018[x]);
@@ -83,7 +82,7 @@ function cancelar_linha(iLinha) {
                 transportadora  : record.transportadora
             });
             localStorage.setItem("NB1018",JSON.stringify(regs_1018));
-            alert('Achei'); }
+        }
     }
     listAll();
 
