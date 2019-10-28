@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Vendas</title>
+        <!-- Scripts JQuery -->
+        <script src="jquery/jquery.js"></script>
+        <script src="jquery/jquery.mobile-1.4.0-rc.1.js"></script>
+        <!-- Scripts BootStrap -->        
+        <script src="bootstrap/js/bootstrap.bundle.js"></script>
+        <script src="bootstrap/js/bootstrap.js"></script>
+        <!-- Scripts Personalizados -->
+        <script type= "text/javascript" src="vendor/jquery-mask/jquery.mask.min.js"></script>
+        <script type= "text/javascript" src="vendor/jquery-validation/jquery.validate.js"></script>
+        <script type= "text/javascript" src="vendor/jquery-validation/localization/messages_pt_BR.js"></script>
+        <script type= "text/javascript" src="vendor/jquery-validation/additional-methods.js"></script>            
+        <script src="js/valida_cpf_cnpj.js"></script>        
+        <script src="js/cliente.js"></script>
+        <!-- CSS Bootstrap -->
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">        
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-grid.css">
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-reboot.css">
+        <!-- CSS Personalizados  -->
+        <link rel="stylesheet" type="text/css" href="css/estilo.css">
+        
+        <script>
+            window.onload=function ()
+            {
+                default_1002();
+                aplicar_mascara();
+                $("#i1001_Cnpj").focus();    
+                $("#i1001_Cnpj").blur(function(){ formatar_cnpj(); });  
+                $("#ibtn_Cob").click(function() { dados_cobranca(); });    
+                $("#ibtn_Ent").click(function() { dados_entrega(); });    
+                $("#ibtn_Inserir").click(function() { update_1001(); });
+            }            
+        </script>
+    </head>
+    <body>
+        <script type="text/javascript" src="cordova.js"></script>
+        <div id="navbar">
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+              <a class="navbar-brand" href="#"> <img src="imagens/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">  Plastoy</a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="location.href='dash.html'">Inicio<span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="location.href='cliente.html'">Clientes<span class="sr-only"></span></a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="location.href='pedido.html'">Pedidos<span class="sr-only"></span></a>
+                  </li>                  
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="location.href='index.html'">Sair<span class="sr-only"></span></a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+        </div>
+        
+        <div class="col-md-10" id=container>
+            <form method="post" id="i1001" name="i1001">
+                <div class="card mb-3">
+                <div class="card-header"><i class="fa fa-table"></i> Cliente</div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>CNPJ:<input type="text" class="form-control form-control-sm" id="i1001_Cnpj" name="i1001_Cnpj" size="30" maxlength="20" style="text-transform:uppercase"></label>&nbsp;                        
+                            </div>
+                            <div class="col-md-6">
+                                <label>Insc.Estadual:<input type="text" class="form-control form-control-sm" id="i1001_Inscricao" name="i1001_Inscricao" size="30" maxlength="20" style="text-transform:uppercase"></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Razão Social:<input type="text" class="form-control form-control-sm" id="i1001_Nome" name="i1001_Nome" size="77" maxlength="50" style="text-transform:uppercase"></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Nome Fantasia:<input type="text" class="form-control form-control-sm" id="i1001_Fantasia" name="i1001_Fantasia" size="77" maxlength="30" style="text-transform:uppercase"></label>                        
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>E-Mail:<input type="text" class="form-control form-control-sm" id="i1001_Email" name="i1001_Email" size="50" maxlength="50" style="text-transform:lowercase"></label>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Telefone:<input type="text" class="form-control form-control-sm" id="i1001_Telefone" name="i1001_Telefone" size="30" maxlength="20" style="text-transform:uppercase"></label>&nbsp;                        
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Ramo de Atividade:<select class="form-control form-control-sm" id="i1002_Numero" name="i1002_Numero"></select></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="accordion">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <a class="card-link" data-toggle="collapse" href="#collapseOne">Endereço de Faturamento</a>
+                                        </div>
+                                        <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>Cep:<input type="text" class="form-control form-control-sm" id="i1001_Cep_Fat" name="i1001_Cep_Fat" size="10" maxlength="9" style="text-transform:uppercase"></label>&nbsp;                        
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label>Endereço:<input type="text" class="form-control form-control-sm" id="i1001_End_Fat" name="i1001_End_Fat" size="55" maxlength="40" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Nro:<input type="text" class="form-control form-control-sm" id="i1001_Nro_Fat" name="i1001_Nro_Fat" size="10" maxlength="10" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                </div>            
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label>Bairro:<input type="text" class="form-control form-control-sm" id="i1001_Bai_Fat" name="i1001_Bai_Fat" size="40" maxlength="30" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label>Compl:<input type="text" class="form-control form-control-sm" id="i1001_Compl_Fat" name="i1001_Compl_Fat" size="37" maxlength="30" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label>Cidade:<input type="text" class="form-control form-control-sm" id="i1001_Cid_Fat" name="i1001_Cid_Fat" size="37" maxlength="30" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label>UF:<input type="text" class="form-control form-control-sm" id="i1001_Est_Fat" name="i1001_Est_Fat" size="5" maxlength="5" style="text-transform:uppercase"></label>                                                
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                          <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">Endereço de Cobrança</a>
+                                      </div>
+                                        <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>Cep:<input type="text" class="form-control form-control-sm" id="i1001_Cep_Cob" name="i1001_Cep_Cob" size="10" maxlength="9" style="text-transform:uppercase"></label>&nbsp;                        
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label>Endereço:<input type="text" class="form-control form-control-sm" id="i1001_End_Cob" name="i1001_End_Cob" size="55" maxlength="40" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Nro:<input type="text" class="form-control form-control-sm" id="i1001_Nro_Cob" name="i1001_Nro_Cob" size="10" maxlength="10" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                </div>            
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label>Bairro:<input type="text" class="form-control form-control-sm" id="i1001_Bai_Cob" name="i1001_Bai_Cob" size="40" maxlength="30" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label>Compl:<input type="text" class="form-control form-control-sm" id="i1001_Compl_Cob" name="i1001_Compl_Cob" size="37" maxlength="30" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label>Cidade:<input type="text" class="form-control form-control-sm" id="i1001_Cid_Cob" name="i1001_Cid_Cob" size="37" maxlength="30" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label>UF:<input type="text" class="form-control form-control-sm" id="i1001_Est_Cob" name="i1001_Est_Cob" size="5" maxlength="5" style="text-transform:uppercase"></label>                                                
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn btn-success btn-sm align-baseline" id="ibtn_Cob" >Copiar Dados do Faturamento</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                          <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">Endereço de Entrega</a>
+                                      </div>
+                                        <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label>Cep:<input type="text" class="form-control form-control-sm" id="i1001_Cep_Ent" name="i1001_Cep_Ent" size="10" maxlength="9" style="text-transform:uppercase"></label>&nbsp;                        
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label>Endereço:<input type="text" class="form-control form-control-sm" id="i1001_End_Ent" name="i1001_End_Ent" size="55" maxlength="40" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label>Nro:<input type="text" class="form-control form-control-sm" id="i1001_Nro_Ent" name="i1001_Nro_Ent" size="10" maxlength="10" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                </div>            
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label>Bairro:<input type="text" class="form-control form-control-sm" id="i1001_Bai_Ent" name="i1001_Bai_Ent" size="40" maxlength="30" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label>Compl:<input type="text" class="form-control form-control-sm" id="i1001_Compl_Ent" name="i1001_Compl_Ent" size="37" maxlength="30" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label>Cidade:<input type="text" class="form-control form-control-sm" id="i1001_Cid_Ent" name="i1001_Cid_Ent" size="37" maxlength="30" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label>UF:<input type="text" class="form-control form-control-sm" id="i1001_Est_Ent" name="i1001_Est_Ent" size="5" maxlength="5" style="text-transform:uppercase"></label>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="btn btn-success btn-sm align-baseline" id="ibtn_Ent" >Copiar Dados do Faturamento</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>
+                        <br>
+                        <button type="button" class="btn btn-primary btn-sm align-baseline" id="ibtn_Inserir" name="ibtn_Inserir">Inserir Cliente</button>
+                    </div>
+
+                    <!-- The Modal: Erro -->
+                    <div class="modal fade" data-backdrop="static" id="myError">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header"><h6 class="modal-title">Cadastro de Clientes</h6></div>
+                                <div class="modal-body"><p style="font-family: 'Tahoma'; font-size: small" id="myErroMsg"></p></div>
+                                <div class="modal-footer"><button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Fechar</button></div>
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+              </div>
+            </form>
+        </div>
+    </body>
+</html>

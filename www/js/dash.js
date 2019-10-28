@@ -10,6 +10,10 @@ var regs_1020 = localStorage.getItem('NB1020');
 regs_1020 = JSON.parse(regs_1020);
 if (regs_1020 == null) { regs_1020 = [] };
 
+var regs_1050 = localStorage.getItem('NB1050');
+regs_1050 = JSON.parse(regs_1050);
+if (regs_1050 == null) { regs_1050 = [] };
+
 function listAll(e)
 {
     var nTotal = 0,
@@ -43,6 +47,7 @@ function include_line(numero,cliente,nome,itens,total)
     cols += '<td>' + nome + '</td>';
     cols += '<td>' + itens + '</td>';
     cols += '<td>' + total + '</td>';
+    cols += '<td><button type="button" class="btn btn-success btn-sm" onclick="editar_linha(this)">Alterar</button></td>';
     cols += '<td><button type="button" class="btn btn-danger btn-sm" onclick="cancelar_linha(this)">Cancelar</button></td>';
     cols += '</tr>';
     newRow.append(cols);
@@ -82,4 +87,19 @@ function cancelar_linha(iLinha) {
     }
     listAll();
 
+}
+
+function editar_linha(iLinha) {
+    var iPedido  = 0,
+        tr = $(iLinha).closest('tr');
+    
+    regs_1050 = [];    
+    localStorage.setItem('NB1050', JSON.stringify(regs_1050));    
+    iPedido = tr.find('td[data-numero]').data('numero');
+    
+    regs_1050[0] = JSON.stringify({
+        numero : iPedido
+    });
+    localStorage.setItem("NB1050",JSON.stringify(regs_1050));    
+    location.href='pedido.html';
 }

@@ -34,9 +34,52 @@ var regs_1035 = localStorage.getItem('NB1035');
 regs_1035 = JSON.parse(regs_1035);
 if (regs_1035 == null) { regs_1035 = [] };
 
+var regs_1050 = localStorage.getItem('NB1050');
+regs_1050 = JSON.parse(regs_1050);
+if (regs_1050 == null) { regs_1050 = [] };
+
 var regs_1080 = localStorage.getItem('NB1080');
 regs_1080 = JSON.parse(regs_1080);
 if (regs_1080 == null) { regs_1080 = [] };
+
+$(document).ready(function($){
+    default_1005();
+    default_1006();
+    default_1011();
+    default_1035();
+
+    $("#i1018_Cliente").focus();
+    $("#ibtn_Cliente").click(function(){ default_1001(); });
+    $("#ibtn_Prod").click(function(){ default_1007(); });
+    $("#ibtn_Salvar").click(function(){ atualizar_1018(); });
+    $("#ibtn_Inserir").click(function(){ default_1020(); });
+    ler_pedido();    
+    excluir_1050();
+});
+
+/// Atualizar 1018  ///////////////////////////////////////////////////////////////////////
+(atualizar_1018 = function () {
+    iPedido  = $('#i1018_Numero').val();
+    if (iPedido != "") {
+        excluir_1018(iPedido);
+        default_1018(iPedido);
+    }
+});
+
+/// Excluir Pedido  ///////////////////////////////////////////////////////////////////////
+(excluir_1018 = function (iPedido) {
+    var index = -1;
+    
+    for (var i in regs_1018) {
+        var record = JSON.parse(regs_1018[i]);
+        if (record.numero == iPedido) { index = i };
+    }
+    
+    if (index != -1) {
+        regs_1018.splice(index,1);
+        localStorage.setItem('NB1018',JSON.stringify(regs_1018));
+    }
+});
 
 /// Excluir Linha da Grade ///////////////////////////////////////////////////////////////
 (excluir_linha = function (iLinha) {
@@ -47,6 +90,7 @@ if (regs_1080 == null) { regs_1080 = [] };
     iProduto = tr.find('td[data-numero]').data('numero');
     iPedido  = $('#i1018_Numero').val();
 
+    default_1018(iPedido);
     excluir_1020(iPedido,iProduto);
     grade_1020(iPedido);
 });
@@ -129,10 +173,12 @@ if (regs_1080 == null) { regs_1080 = [] };
         }
 
     sID = $("#i1018_Cliente").val();
+    document.getElementById("ibtn_Cliente").disabled = false;
+    document.getElementById("i1018_Cliente").disabled = false;
+    document.getElementById("i1001_Nome").disabled = true;
     document.getElementById("i1001_Fone").disabled = false;
     document.getElementById("i1001_Email").disabled = false;
     document.getElementById("i1001_Uf").disabled = false;
-    document.getElementById("i1001_Nome").disabled = true;
     
     $('#i1001_Nome').val('NAO CADASTRADO');
     $('#i1001_Fone').val('');
@@ -146,8 +192,11 @@ if (regs_1080 == null) { regs_1080 = [] };
             $('#i1001_Nome').val(record.nome);
             $('#i1001_Fone').val(record.telefone);
             $('#i1001_Email').val(record.email);
-            $('#i1001_Uf').val(record.uf);
-
+            $('#i1001_Uf').val(record.est_fat);
+            
+            document.getElementById("ibtn_Cliente").disabled = true;
+            document.getElementById("i1018_Cliente").disabled = true;
+            document.getElementById("i1001_Nome").disabled = true;
             document.getElementById("i1001_Fone").disabled = true;
             document.getElementById("i1001_Email").disabled = true;
             document.getElementById("i1001_Uf").disabled = true;
@@ -269,6 +318,7 @@ if (regs_1080 == null) { regs_1080 = [] };
     if (nDesc2 == "") { nDesc2 = 0; }
     if (nDesc3 == "") { nDesc3 = 0; }
     
+    excluir_1018(iPedido);
     var i1018 = JSON.stringify({
         numero      : iPedido,
         data        : sData,
@@ -285,12 +335,13 @@ if (regs_1080 == null) { regs_1080 = [] };
         status      : 'A',
         internet    : 'I',
         transportadora  :   $("#i1011_Cnpj option:selected").val(),
+        tipo            :   $("#i1018_Tipo option:selected").val(),
         pedido_cliente  :   $('#i1018_Pedido_Cliente').val(),
-        porc_pola       :   $("#i1018_Porc_Pola option:selected").val(),
+        porc_pola       :   $("#i1018_Porc_Pola option:selected").val()
     });
     regs_1018.push(i1018);
     localStorage.setItem("NB1018", JSON.stringify(regs_1018));
-    if (sNome == 'NAO CADASTRADO') { update_1001(sCNPJ) };
+    //if (sNome == 'NAO CADASTRADO') { update_1001(sCNPJ) };
 });
 
 /// Funcao para gravar itens //////////////////////////////////////////////////////
@@ -317,7 +368,7 @@ if (regs_1080 == null) { regs_1080 = [] };
     if (nDesc1 != 0) { nFator = (nFator * nDesc1 ) };
     
     nTotal   = eval(nPreco*nQtde*nFator);
-    
+    if (iPedido != 0) { default_1018(iPedido); }
     if (iPedido == 0) {
         for (var i in regs_1018) {
             var record = JSON.parse(regs_1018[i]);
@@ -394,3 +445,39 @@ if (regs_1080 == null) { regs_1080 = [] };
     nTotal = nTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL"});
     $('#i1018_Total').val(nTotal);
 })
+
+/// Carregando Pedido //////////////////////////////////////////////////////////////
+(ler_pedido = function () {
+    if (regs_1050.length != 0) {
+        var record = JSON.parse(regs_1050[0]);
+        var ipedido = record.numero;
+    }
+    
+    for (var i in regs_1018) {
+        var record = JSON.parse(regs_1018[i]);
+        if (record.numero == ipedido) {
+            $("#i1018_Numero").val(record.numero);            
+            $("#i1018_Cliente").val(record.cliente);
+            $("#i1018_Obs").val(record.obs);
+            $("#i1018_Desc1").val(record.desc1);
+            $("#i1018_Desc3").val(record.desc3);
+            $("#i1018_Pedido_Cliente").val(record.pedido_cliente);
+            $("#i1005_Numero").val(record.condicao);
+            $("#i1035_Numero").val(record.tabela);
+            $("#i1011_Cnpj").val(record.transportadora);
+            $("#i1018_Porc_Pola").val(record.porc_pola);
+            $("#i1018_Tipo").val(record.tipo);
+            default_1001();
+            grade_1020(ipedido);
+            
+            document.getElementById("i1035_Numero").disabled = true; 
+            document.getElementById("i1018_Desc1").disabled = true;
+            document.getElementById("i1018_Desc3").disabled = true;            
+        }
+    }
+});
+
+(excluir_1050 = function () {
+    regs_1050 = [];    
+    localStorage.setItem('NB1050', JSON.stringify(regs_1050));    
+});

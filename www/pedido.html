@@ -19,21 +19,6 @@
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-reboot.css">
         <!-- CSS Personalizados  -->
         <link rel="stylesheet" type="text/css" href="css/estilo.css">
-        
-        <script>
-            window.onload=function ()
-            {
-                default_1005();
-                default_1006();
-                default_1011();
-                default_1035();
-
-                $("#i1018_Cliente").focus();
-                $("#ibtn_Cliente").click(function(){ default_1001(); });
-                $("#ibtn_Prod").click(function(){ default_1007(); });
-                $("#ibtn_Inserir").click(function(){ default_1020(); });
-            }            
-        </script>
     </head>
     <body>
         <script type="text/javascript" src="cordova.js"></script>
@@ -48,6 +33,9 @@
                   <li class="nav-item active">
                     <a class="nav-link" href="#" onclick="location.href='dash.html'">Inicio<span class="sr-only">(current)</span></a>
                   </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="location.href='cliente.html'">Clientes<span class="sr-only"></span></a>
+                  </li>                  
                   <li class="nav-item active">
                     <a class="nav-link" href="#" onclick="location.href='pedido.html'">Pedidos<span class="sr-only"></span></a>
                   </li>
@@ -69,9 +57,9 @@
                                 <label>Pedido:<input type="text" class="form-control form-control-sm" id="i1018_Numero" name="i1018_Numero" size="7" maxlength="5" readonly="true" style="text-transform:uppercase"></label>&nbsp;
                                 <label>Cod.Vendedor:<input type="text" class="form-control form-control-sm" id="i1018_Vendedor" name="i1018_Vendedor" size="7" maxlength="5" readonly="true" style="text-transform:uppercase"></label>&nbsp;
                                 <br>
-                                <label>CNPJ:<input type="text" class="form-control form-control-sm" id="i1018_Cliente" size="20" maxlength="20" style="text-transform:uppercase" required="required"></label>
+                                <label>CNPJ:<input type="text" class="form-control form-control-sm" id="i1018_Cliente" name="i1018_Cliente" size="20" maxlength="20" style="text-transform:uppercase" required="required"></label>
                                 <button type="button" class="btn btn-outline-secondary align-baseline" id="ibtn_Cliente" >...</button>&nbsp;
-                                <label>Razao Social:<input type="text" class="form-control form-control-sm" id="i1001_Nome" size="60" maxlength="60" style="text-transform:uppercase" required="required"></label>
+                                <label>Razao Social:<input type="text" class="form-control form-control-sm" id="i1001_Nome" name="i1001_Nome" size="60" maxlength="60" style="text-transform:uppercase" required="required"></label>
                                 <br>
                                 <label>Fone:<input type="text" class="form-control form-control-sm" id="i1001_Fone" size="20" maxlength="20" style="text-transform:uppercase" required="required"></label>&nbsp;
                                 <label>E-Mail:<input type="email" class="form-control form-control-sm" id="i1001_Email" size="55" maxlength="60" style="text-transform:lowercase" required="required"></label>
@@ -93,8 +81,13 @@
                                     <option value="0" data-porc="0">0%</option>
                                     <option value="70" data-porc="70">70%</option>
                                 </select></label>&nbsp;&nbsp;
+                                <label>Tipo:<select class="form-control form-control-sm" id="i1018_Tipo" name="i1018_Tipo">
+                                    <option value="O">Orçamento</option>
+                                    <option value="P">Pedido</option>
+                                </select></label>&nbsp;&nbsp;
                                 <label>Total Pedido:<input type="text" class="form-control form-control-sm" id="i1018_Total" size="10" readonly="true" tabindex="-1"></label>&nbsp;&nbsp;&nbsp;
-                                <button type="button" class="btn btn-primary align-baseline" data-toggle="modal" data-target="#iModal" id="ibtn_Confirmar">Novo Pedido</button>
+                                <button type="button" class="btn btn-primary align-baseline" id="ibtn_Salvar">Salvar</button>&nbsp;&nbsp;&nbsp;
+                                <button type="button" class="btn btn-primary align-baseline" data-toggle="modal" data-target="#iModal" id="ibtn_Confirmar">Novo Orçamento/Pedido</button>
                             </div>
                             <br>
                             <div class="col-md-10" id="i1018_body">

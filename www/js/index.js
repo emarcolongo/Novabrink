@@ -6,6 +6,10 @@ var regs_1001 = localStorage.getItem('NB1001');
 regs_1001 = JSON.parse(regs_1001);
 if (regs_1001 == null) { regs_1001 = [] };
 
+var regs_1002 = localStorage.getItem('NB1002');
+regs_1002 = JSON.parse(regs_1002);
+if (regs_1002 == null) { regs_1002 = [] };
+
 var regs_1005 = localStorage.getItem('NB1005');
 regs_1005 = JSON.parse(regs_1005);
 if (regs_1005 == null) { regs_1005 = [] };
@@ -37,6 +41,10 @@ if (regs_1020 == null) { regs_1020 = [] };
 var regs_1035 = localStorage.getItem('NB1035');
 regs_1035 = JSON.parse(regs_1035);
 if (regs_1035 == null) { regs_1035 = [] };
+
+var regs_1050 = localStorage.getItem('NB1050');
+regs_1050 = JSON.parse(regs_1050);
+if (regs_1050 == null) { regs_1050 = [] };
 
 var regs_1080 = localStorage.getItem('NB1080');
 regs_1080 = JSON.parse(regs_1080);
@@ -94,14 +102,65 @@ function avec1001(sVendedor)
                     var record = JSON.stringify({
                         cnpj        :  data.cnpj[i],
                         nome        :  data.nome[i],
+                        fantasia    :  data.fantasia[i],
+                        inscricao   :  data.inscricao[i],
                         email       :  data.email[i],
                         telefone    :  data.telefone[i],
-                        uf          :  data.uf[i],
+                        ramo        :  data.ramo[i],
+                        end_fat     :  data.end_fat[i],
+                        nro_fat     :  data.nro_fat[i],
+                        bai_fat     :  data.bai_fat[i],
+                        cid_fat     :  data.cid_fat[i],
+                        est_fat     :  data.est_fat[i],
+                        cep_fat     :  data.cep_fat[i],
+                        compl_fat   :  data.compl_fat[i],
+                        end_cob     :  data.end_cob[i],
+                        nro_cob     :  data.nro_cob[i],
+                        bai_cob     :  data.bai_cob[i],
+                        cid_cob     :  data.cid_cob[i],
+                        est_cob     :  data.est_cob[i],
+                        cep_cob     :  data.cep_cob[i],
+                        compl_cob   :  data.compl_cob[i],
+                        end_ent     :  data.end_ent[i],
+                        nro_ent     :  data.nro_ent[i],
+                        bai_ent     :  data.bai_ent[i],
+                        cid_ent     :  data.cid_ent[i],
+                        est_ent     :  data.est_ent[i],
+                        cep_ent     :  data.cep_ent[i],
+                        compl_ent   :  data.compl_ent[i],
                         status      :  ''
                     });    
                     regs_1001.push(record);
                 }
                 localStorage.setItem('NB1001', JSON.stringify(regs_1001));
+            }
+        },
+        error: function(xhr, textStatus, error){
+            console.log(error);
+            $('#i1006_ErroMsg').html("<strong>Erro.</strong></br>Não foi possivel atualizar os dados. Por favor, verifique sua conexão");
+            $('#i1006_Erro').modal('show');
+        }
+    });
+}
+
+function avec1002()
+{
+    $.ajax({
+        type: 'POST',
+        url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
+        dataType: "json",
+        data:({"ID"     : "F1002" }),
+        success: function (data) {
+            if (data.nome != "") {
+                regs_1002 = [];
+                for (var i = 0; i < data.nome.length; i++) {
+                    var record = JSON.stringify({
+                        numero      :  data.numero[i],
+                        nome        :  data.nome[i]
+                    });    
+                    regs_1002.push(record);
+                }
+                localStorage.setItem('NB1002', JSON.stringify(regs_1002));
             }
         },
         error: function(xhr, textStatus, error){
@@ -238,10 +297,11 @@ function upload_avec1018()
                         "DESC3"             :   i1018.desc3,
                         "PEDIDO_CLIENTE"    :   i1018.pedido_cliente,
                         "PORC_POLA"         :   i1018.porc_pola,
+                        "TIPO"              :   i1018.tipo,
                         "iPRODUTO"          :   items.produto,
                         "iQTDE"             :   items.qtde,
                         "iUNITARIO"         :   items.unitario,
-                        "iTOTAL"            :   items.total,
+                        "iTOTAL"            :   items.total
                       }),
                 success: function (data) {
                     console.log('Pedidos Enviados:' + data.pedido);
@@ -386,10 +446,11 @@ function btnAcesso(e)
                 localStorage.setItem('NB1006', JSON.stringify(regs_1006));
                 //
                 upload_avec1001(sVendedor);    
-                upload_avec1018();
+                //upload_avec1018();    //28/10/2019
                 excluir_dados();
                 //
                 avec1001(sVendedor);
+                avec1002();
                 avec1005();
                 avec1007();
                 avec1011();
@@ -456,6 +517,7 @@ function test_json()
 function excluir_dados()
 {
     regs_1001 = [];
+    regs_1002 = [];
     regs_1005 = [];
     regs_1007 = [];
     regs_1011 = [];
@@ -463,9 +525,11 @@ function excluir_dados()
     regs_1018 = [];
     regs_1020 = [];    
     regs_1035 = [];
+    regs_1050 = [];    
     regs_1080 = [];
 
     localStorage.setItem('NB1001', JSON.stringify(regs_1001));
+    localStorage.setItem('NB1002', JSON.stringify(regs_1002));
     localStorage.setItem('NB1005', JSON.stringify(regs_1005));
     localStorage.setItem('NB1007', JSON.stringify(regs_1007));
     localStorage.setItem('NB1011', JSON.stringify(regs_1011));
@@ -473,6 +537,7 @@ function excluir_dados()
     localStorage.setItem('NB1018', JSON.stringify(regs_1018));
     localStorage.setItem('NB1020', JSON.stringify(regs_1020));
     localStorage.setItem('NB1035', JSON.stringify(regs_1035));
+    localStorage.setItem('NB1050', JSON.stringify(regs_1050));    
     localStorage.setItem('NB1080', JSON.stringify(regs_1080));
 
     //regs_1006 = [];
