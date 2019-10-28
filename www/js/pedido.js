@@ -165,14 +165,14 @@ $(document).ready(function($){
     $("#i1001_Uf").val('');
     
     alert("Sem Formatacao: "+sID);
-
-    if (formata_cpf_cnpj(sID)) {
-        $("#i1018_Cliente").val(formata_cpf_cnpj(sID));
-        } else {
-            $("#i1018_Cliente").focus();
-            alert('CPF ou CNPJ invalidos');
-            return;
-        }
+    
+    //if (formata_cpf_cnpj(sID)) {
+    //    $("#i1018_Cliente").val(formata_cpf_cnpj(sID));
+    //    } else {
+    //        $("#i1018_Cliente").focus();
+    //        alert('CPF ou CNPJ invalidos');
+    //        return;
+    //    }
 
     sID = $("#i1018_Cliente").val();
     alert("Formatado: "+sID);
