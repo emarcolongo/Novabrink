@@ -488,7 +488,7 @@ function atualizar_dados()
                 $('#i1006_Update').modal('show');
 
                 $("#loader").hide();
-                //resumo_load();
+                resumo_load();
                 //location.href='dash.html';
             } else {
                 $('#i1006_ErroMsg').html("<strong>Login inválido.</strong></br>Por favor, verifique seu ID Vendedor e Senha");
