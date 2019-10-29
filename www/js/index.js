@@ -192,7 +192,7 @@ function avec1005()
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
         async : false,
         dataType: "json",
-        data:({"ID" :"F1005" }),
+        data:({"ID"   : "F1005"}),
         success: function (data) {
             if (data.nome != "") {
                 regs_1005 = [];
@@ -248,14 +248,15 @@ function avec1007()
     });
 }
 
-function avec1011()
+function avec1011(sVendedor)
 {
     $.ajax({
         type: 'POST',
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
         async : false,
         dataType: "json",
-        data:({"ID" :"F1011" }),
+        data:({"ID"   : "F1011",
+               "VEND" : sVendedor}),
         success: function (data) {
             if (data.nome != "") {
                 regs_1011 = [];
@@ -365,14 +366,15 @@ function upload_avec1001(sVendedor)
     }
 }
 
-function avec1035()
+function avec1035(sVendedor)
 {
     $.ajax({
         type: 'POST',
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
         async : false,
         dataType: "json",
-        data:({"ID" :"F1035" }),
+        data:({"ID"   : "F1035",
+               "VEND" : sVendedor}),
         success: function (data) {
             if (data.nome != "") {
                 regs_1035 = [];
@@ -395,14 +397,15 @@ function avec1035()
     });
 }
 
-function avec1080()
+function avec1080(sVendedor)
 {
     $.ajax({
         type: 'POST',
         url: 'https://www.asctbinf.com/plastoy/phonegap/dados.php',
         async : false,
         dataType: "json",
-        data:({"ID" :"F1080" }),
+        data:({"ID"   : "F1080",
+               "VEND" : sVendedor}),
         success: function (data) {
             if (data.numero != "") {
                 regs_1080 = [];
@@ -448,7 +451,7 @@ function btnAcesso(e)
 
 function atualizar_dados()
 {
-        var sVendedor = $("#i1006_Numero").val().toUpperCase();
+    var sVendedor = $("#i1006_Numero").val().toUpperCase();
     var sPass = $("#i1006_Senha").val().toUpperCase();
     
     $.ajax({
@@ -479,10 +482,10 @@ function atualizar_dados()
                 avec1002();
                 avec1005();
                 avec1007();
-                avec1011();
+                avec1011(sVendedor);
                 avec1017();
-                avec1035();
-                avec1080();
+                avec1035(sVendedor);
+                avec1080(sVendedor);
 
                 $('#i1006_UpdMsg').html("<strong>Concluido.</strong></br>Dados Atualizados com Sucesso");
                 $('#i1006_Update').modal('show');

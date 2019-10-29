@@ -31,18 +31,22 @@ function listAll(e)
                 var i1020 = JSON.parse(regs_1020[x]);
                 if (i1020.pedido == i1018.numero) { nTotal = eval(i1020.total+nTotal); nItens = (nItens + 1) };
             }
-            include_line(i1018.numero,i1018.cliente,i1018.nome,nItens,nTotal);
+            include_line(i1018.numero,i1018.cliente,i1018.nome,nItens,nTotal,i1018.tipo);
         }
     }
 }
 
-function include_line(numero,cliente,nome,itens,total)
+function include_line(numero,cliente,nome,itens,total,tipo)
 {
     total = total.toLocaleString("pt-BR", { style: "currency", currency: "BRL"});
+    var spedido = numero.toString();
+    if (spedido.length == 1) { spedido = "00" + spedido; }
+    if (spedido.length == 2) { spedido = "0" + spedido; }
+    spedido = spedido + "-" +tipo.toUpperCase();
     
     var cols = '',
     newRow = $("<tr>");
-    cols += '<td data-numero="'+ numero +'">'+numero+'</td>';
+    cols += '<td data-numero="'+ numero +'">'+spedido+'</td>';
     cols += '<td>' + cliente + '</td>';
     cols += '<td>' + nome + '</td>';
     cols += '<td>' + itens + '</td>';

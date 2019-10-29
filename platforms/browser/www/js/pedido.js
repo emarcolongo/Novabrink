@@ -47,6 +47,11 @@ $(document).ready(function($){
     default_1006();
     default_1011();
     default_1035();
+    
+    document.getElementById("i1001_Nome").disabled = true;
+    document.getElementById("i1001_Fone").disabled = true;
+    document.getElementById("i1001_Email").disabled = true;
+    document.getElementById("i1001_Uf").disabled = true;
 
     $("#i1018_Cliente").focus();
     $("#ibtn_Cliente").click(function(){ default_1001(); });
@@ -175,12 +180,8 @@ $(document).ready(function($){
     sID = $("#i1018_Cliente").val();
     document.getElementById("ibtn_Cliente").disabled = false;
     document.getElementById("i1018_Cliente").disabled = false;
-    document.getElementById("i1001_Nome").disabled = true;
-    document.getElementById("i1001_Fone").disabled = false;
-    document.getElementById("i1001_Email").disabled = false;
-    document.getElementById("i1001_Uf").disabled = false;
     
-    $('#i1001_Nome').val('NAO CADASTRADO');
+    $('#i1001_Nome').val('');
     $('#i1001_Fone').val('');
     $('#i1001_Email').val('');
     $('#i1001_Uf').val('');
@@ -196,12 +197,13 @@ $(document).ready(function($){
             
             document.getElementById("ibtn_Cliente").disabled = true;
             document.getElementById("i1018_Cliente").disabled = true;
-            document.getElementById("i1001_Nome").disabled = true;
-            document.getElementById("i1001_Fone").disabled = true;
-            document.getElementById("i1001_Email").disabled = true;
-            document.getElementById("i1001_Uf").disabled = true;
             $('#i1018_Obs').focus();
         };
+    }
+    if ($('#i1001_Nome').val() == "") {
+        $("#myErroMsg").html("Cliente não Localizado");
+        $('#myError').modal('show');        
+        $('#i1018_Cliente').focus();
     }
 });
 
@@ -271,9 +273,9 @@ $(document).ready(function($){
 
     if ($('#i1018_Vendedor').val() == '')   { sMsg = sMsg + '- Vendedor inválido. Por favor, faça o login novamente.</br>' ; sValidar = false; }
     if ($('#i1001_Nome').val() == '')       { sMsg = sMsg + '- Cliente não informado</br>' ; sValidar = false; }
-    if ($('#i1001_Fone').val() == '')       { sMsg = sMsg + '- Telefone não informado</br>' ; sValidar = false; }
-    if ($('#i1001_Email').val() == '')      { sMsg = sMsg + '- E-Mail não informado</br>' ; sValidar = false; }
-    if ($('#i1001_Uf').val() == '')         { sMsg = sMsg + '- UF não informada</br>' ; sValidar = false; }
+    //if ($('#i1001_Fone').val() == '')       { sMsg = sMsg + '- Telefone não informado</br>' ; sValidar = false; }
+    //if ($('#i1001_Email').val() == '')      { sMsg = sMsg + '- E-Mail não informado</br>' ; sValidar = false; }
+    //if ($('#i1001_Uf').val() == '')         { sMsg = sMsg + '- UF não informada</br>' ; sValidar = false; }
     if ($('#i1007_Nome').val() == '')       { sMsg = sMsg + '- Produto não informado</br>' ; sValidar = false; }
     if (iQtde <= 0)                         { sMsg = sMsg + '- Quantidade não informada</br>' ; sValidar = false; }
     if (nResto != 0)                        { sMsg = sMsg + '- Quantidade informada não é Multipla</br>' ; sValidar = false; }
@@ -394,13 +396,8 @@ $(document).ready(function($){
     localStorage.setItem("NB1020", JSON.stringify(regs_1020));
     
     document.getElementById("i1018_Cliente").disabled = true;
-    document.getElementById("i1001_Nome").disabled = true;    
-    document.getElementById("i1001_Fone").disabled = true;
-    document.getElementById("i1001_Email").disabled = true;
-    document.getElementById("i1001_Uf").disabled = true;
-    //
-    document.getElementById("i1035_Numero").disabled = true; 
     document.getElementById("ibtn_Cliente").disabled = true;
+    document.getElementById("i1035_Numero").disabled = true;     
     document.getElementById("i1018_Desc1").disabled = true;
     document.getElementById("i1018_Desc3").disabled = true;
 
