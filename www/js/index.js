@@ -475,7 +475,7 @@ function atualizar_dados()
                 localStorage.setItem('NB1006', JSON.stringify(regs_1006));
                 //
                 //upload_avec1001(sVendedor);    
-                //upload_avec1018();
+                upload_avec1018();
                 excluir_dados();
                 //
                 avec1001(sVendedor);
@@ -531,10 +531,5 @@ function excluir_dados()
     localStorage.setItem('NB1035', JSON.stringify(regs_1035));
     localStorage.setItem('NB1050', JSON.stringify(regs_1050));    
     localStorage.setItem('NB1080', JSON.stringify(regs_1080));
-
-    //regs_1006 = [];
-    //regs_1017 = [];
-    //regs_1018 = [];
-    //regs_1020 = [];
     //localStorage.clear();
 }
