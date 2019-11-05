@@ -18,6 +18,15 @@
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-reboot.css">
         <!-- CSS Personalizados -->
         <link rel="stylesheet" type="text/css" href="css/estilo.css">
+        <script type="text/javascript" charset="utf-8">
+            document.addEventListener("deviceready", onDeviceReady, false); // Wait for device API libraries to load
+            function onDeviceReady() {                                      // device APIs are available
+                document.addEventListener("backbutton", onBackKeyDown, false);
+            }
+            function onBackKeyDown() {                                      // Handle the back button
+                navigator.app.exitApp();
+            }
+        </script>        
     </head>
     <body>
         <script type="text/javascript" src="cordova.js"></script>
@@ -50,9 +59,6 @@
             <div class="card card-login mx-auto mt-4">
               <div class="card-header"><i class="fas fa-sign-in-alt"></i> Lista de Pedidos</div>
                 <div class="card-body">
-                    <div class="row">
-                        <button type="button" class="btn btn-outline-secondary align-baseline" id="ibtn_Excluir" >Excluir</button>
-                    </div><br>
                     <div class="row">
                         <div class="col-md-12">
                         <table class="table table-sm table-hover" id="i1018_Grid">

@@ -476,6 +476,7 @@ function atualizar_dados()
                 //
                 //upload_avec1001(sVendedor);    
                 //upload_avec1018();
+                excluir_pedidos();
                 excluir_dados();
                 //
                 avec1001(sVendedor);
@@ -506,6 +507,74 @@ function atualizar_dados()
     });
 }
 
+function excluir_pedidos() {
+    var new_array_1018 = [];
+    var new_array_1020 = [];
+
+    for (var y in regs_1018) {
+        var i1018_tmp = JSON.parse(regs_1018[y]);
+        if (i1018_tmp.tipo == "O") {
+            for (var x in regs_1020) {
+                var i1020_tmp = JSON.parse(regs_1020[x]);       
+                if (i1020_tmp.pedido == i1018_tmp.numero) {
+                    var i1020 = JSON.stringify({
+                        pedido      : i1020_tmp.pedido,
+                        produto     : i1020_tmp.produto,
+                        nome        : i1020_tmp.nome,
+                        qtde        : i1020_tmp.qtde,
+                        unitario    : i1020_tmp.unitario,
+                        total       : i1020_tmp.total,
+                        status      : i1020_tmp.status
+                    });
+                    new_array_1020.push(i1020);
+                }
+            }    
+        }
+    }
+    
+    if (new_array_1020.length > 0) {
+        regs_1020 = [];
+        localStorage.setItem('NB1020', JSON.stringify(regs_1020));
+    
+        regs_1020 = new_array_1020;
+        localStorage.setItem('NB1020', JSON.stringify(regs_1020));
+    }
+    
+    for (var x in regs_1018) {
+        var i1018_tmp = JSON.parse(regs_1018[x]);
+        if (i1018_tmp.tipo == "O") {
+            var i1018 = JSON.stringify({
+                numero      : i1018_tmp.numero,
+                data        : i1018_tmp.data,
+                cliente     : i1018_tmp.cliente,
+                nome        : i1018_tmp.nome,
+                vendedor1   : i1018_tmp.vendedor1,
+                tabela      : i1018_tmp.tabela,
+                condicao    : i1018_tmp.condicao,
+                desc1       : i1018_tmp.desc1,
+                desc2       : i1018_tmp.desc2,
+                desc3       : i1018_tmp.desc3,
+                total       : i1018_tmp.total,
+                obs         : i1018_tmp.obs,
+                status      : i1018_tmp.status,
+                internet    : i1018_tmp.internet,
+                transportadora  :   i1018_tmp.transportadora,
+                tipo            :   i1018_tmp.tipo,
+                pedido_cliente  :   i1018_tmp.pedido_cliente,
+                porc_pola       :   i1018_tmp.porc_pola
+            });
+            new_array_1018.push(i1018);
+        }
+    }
+    if (new_array_1018.length > 0) {
+        regs_1018 = [];
+        localStorage.setItem('NB1018', JSON.stringify(regs_1018));
+        
+        regs_1018 = new_array_1018;
+        localStorage.setItem('NB1018', JSON.stringify(regs_1018));
+    }
+}
+
 function excluir_dados()
 {
     regs_1001 = [];
@@ -513,9 +582,8 @@ function excluir_dados()
     regs_1005 = [];
     regs_1007 = [];
     regs_1011 = [];
-    //regs_1017 = [];
-    regs_1018 = [];
-    regs_1020 = [];    
+    //regs_1018 = [];   //substituido pelo excluir_pedidos
+    //regs_1020 = [];   //substituido pelo excluir_pedidos 
     regs_1035 = [];
     regs_1050 = [];    
     regs_1080 = [];
@@ -525,9 +593,8 @@ function excluir_dados()
     localStorage.setItem('NB1005', JSON.stringify(regs_1005));
     localStorage.setItem('NB1007', JSON.stringify(regs_1007));
     localStorage.setItem('NB1011', JSON.stringify(regs_1011));
-    //localStorage.setItem('NB1017', JSON.stringify(regs_1017));
-    localStorage.setItem('NB1018', JSON.stringify(regs_1018));
-    localStorage.setItem('NB1020', JSON.stringify(regs_1020));
+    //localStorage.setItem('NB1018', JSON.stringify(regs_1018));    //substituido pelo excluir_pedidos
+    //localStorage.setItem('NB1020', JSON.stringify(regs_1020));    //substituido pelo excluir_pedidos
     localStorage.setItem('NB1035', JSON.stringify(regs_1035));
     localStorage.setItem('NB1050', JSON.stringify(regs_1050));    
     localStorage.setItem('NB1080', JSON.stringify(regs_1080));

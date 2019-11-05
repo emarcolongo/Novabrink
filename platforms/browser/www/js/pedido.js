@@ -169,15 +169,19 @@ $(document).ready(function($){
     $("#i1001_Email").val('');
     $("#i1001_Uf").val('');
     
-    if (formata_cpf_cnpj(sID)) {
-        $("#i1018_Cliente").val(formata_cpf_cnpj(sID));
-        } else {
-            $("#i1018_Cliente").focus();
-            alert('CPF ou CNPJ invalidos');
-            return;
-        }
+    //if (formata_cpf_cnpj(sID)) {
+    //    $("#i1018_Cliente").val(formata_cpf_cnpj(sID));
+    //    } else {
+    //        $("#i1018_Cliente").focus();
+    //        alert('CPF ou CNPJ invalidos');
+    //        return;
+    //    }
 
     sID = $("#i1018_Cliente").val();
+    sID = sID.replace(".","");
+    sID = sID.replace(".","");
+    sID = sID.replace("/","");
+    sID = sID.replace("-","");
     document.getElementById("ibtn_Cliente").disabled = false;
     document.getElementById("i1018_Cliente").disabled = false;
     
@@ -189,11 +193,17 @@ $(document).ready(function($){
     
     for (var i in regs_1001) {
         var record = JSON.parse(regs_1001[i]);
-        if (record.cnpj == sID) { 
+        var sCNPJ = record.cnpj;        
+        sCNPJ = sCNPJ.replace(".","");
+        sCNPJ = sCNPJ.replace(".","");
+        sCNPJ = sCNPJ.replace("/","");
+        sCNPJ = sCNPJ.replace("-","");
+        if (sCNPJ == sID) { 
             $('#i1001_Nome').val(record.nome);
             $('#i1001_Fone').val(record.telefone);
             $('#i1001_Email').val(record.email);
             $('#i1001_Uf').val(record.est_fat);
+            $("#i1018_Cliente").val(record.cnpj)
             
             document.getElementById("ibtn_Cliente").disabled = true;
             document.getElementById("i1018_Cliente").disabled = true;
@@ -257,7 +267,7 @@ $(document).ready(function($){
         $("#i1020_Qtde").val('');
         $("#i1020_Preco").val('');
         $("#i1007_Emb").val('');
-        $("#i1020_Prod").focus();
+        $("#i1020_Ref").focus();
     };
 });
 
@@ -400,7 +410,6 @@ $(document).ready(function($){
     document.getElementById("ibtn_Cliente").disabled = true;
     document.getElementById("i1035_Numero").disabled = true;     
     document.getElementById("i1018_Desc1").disabled = true;
-    document.getElementById("i1018_Desc3").disabled = true;
 
     $('#i1018_Numero').val(iPedido);
     $("#i1020_Ref").val('');    
@@ -409,7 +418,7 @@ $(document).ready(function($){
     $("#i1007_Emb").val('');
     $("#i1020_Qtde").val('');
     $("#i1020_Preco").val('');
-    $("#i1020_Prod").focus();
+    $("#i1020_Ref").focus();
     
     grade_1020(iPedido);
 });

@@ -18,6 +18,15 @@
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-reboot.css">
         <!-- CSS Personalizados -->
         <link rel="stylesheet" type="text/css" href="css/estilo.css">
+        <script type="text/javascript" charset="utf-8">
+            document.addEventListener("deviceready", onDeviceReady, false); // Wait for device API libraries to load
+            function onDeviceReady() {                                      // device APIs are available
+                document.addEventListener("backbutton", onBackKeyDown, false);
+            }
+            function onBackKeyDown() {                                      // Handle the back button
+                navigator.app.exitApp();
+            }
+        </script>        
     </head>
     <body>
         <script type="text/javascript" src="cordova.js"></script>

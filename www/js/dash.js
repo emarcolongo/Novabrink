@@ -111,4 +111,3 @@ function editar_linha(iLinha) {
     localStorage.setItem("NB1050",JSON.stringify(regs_1050));    
     location.href='pedido.html';
 }
-

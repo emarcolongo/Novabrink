@@ -179,6 +179,7 @@ $(document).ready(function($){
 
     sID = $("#i1018_Cliente").val();
     sID = sID.replace(".","");
+    sID = sID.replace(".","");
     sID = sID.replace("/","");
     sID = sID.replace("-","");
     document.getElementById("ibtn_Cliente").disabled = false;
@@ -193,6 +194,7 @@ $(document).ready(function($){
     for (var i in regs_1001) {
         var record = JSON.parse(regs_1001[i]);
         var sCNPJ = record.cnpj;        
+        sCNPJ = sCNPJ.replace(".","");
         sCNPJ = sCNPJ.replace(".","");
         sCNPJ = sCNPJ.replace("/","");
         sCNPJ = sCNPJ.replace("-","");
@@ -265,7 +267,7 @@ $(document).ready(function($){
         $("#i1020_Qtde").val('');
         $("#i1020_Preco").val('');
         $("#i1007_Emb").val('');
-        $("#i1020_Prod").focus();
+        $("#i1020_Ref").focus();
     };
 });
 
@@ -408,7 +410,6 @@ $(document).ready(function($){
     document.getElementById("ibtn_Cliente").disabled = true;
     document.getElementById("i1035_Numero").disabled = true;     
     document.getElementById("i1018_Desc1").disabled = true;
-    document.getElementById("i1018_Desc3").disabled = true;
 
     $('#i1018_Numero').val(iPedido);
     $("#i1020_Ref").val('');    
@@ -417,7 +418,7 @@ $(document).ready(function($){
     $("#i1007_Emb").val('');
     $("#i1020_Qtde").val('');
     $("#i1020_Preco").val('');
-    $("#i1020_Prod").focus();
+    $("#i1020_Ref").focus();
     
     grade_1020(iPedido);
 });
