@@ -10,6 +10,16 @@ var regs_1002 = localStorage.getItem('NB1002');
 regs_1002 = JSON.parse(regs_1002);
 if (regs_1002 == null) { regs_1002 = [] };
 
+$(document).ready(function($){
+    default_1002();
+    aplicar_mascara();
+    $("#i1001_Cnpj").focus();    
+    $("#i1001_Cnpj").blur(function(){ formatar_cnpj(); });  
+    $("#ibtn_Cob").click(function() { dados_cobranca(); });    
+    $("#ibtn_Ent").click(function() { dados_entrega(); });    
+    $("#ibtn_Inserir").click(function() { update_1001(); });
+});
+
 /// Exibindo Cond.Pagamento //////////////////////////////////////////////////////////////
 (default_1002 = function () {
     for (var i in regs_1002) {

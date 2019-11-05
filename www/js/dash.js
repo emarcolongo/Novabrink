@@ -14,6 +14,11 @@ var regs_1050 = localStorage.getItem('NB1050');
 regs_1050 = JSON.parse(regs_1050);
 if (regs_1050 == null) { regs_1050 = [] };
 
+$(document).ready(function($){
+    listAll();
+    $("#ibtn_Excluir").click(function() { excluir_pedidos(); });    
+});
+
 function listAll(e)
 {
     var nTotal = 0,
@@ -106,3 +111,4 @@ function editar_linha(iLinha) {
     localStorage.setItem("NB1050",JSON.stringify(regs_1050));    
     location.href='pedido.html';
 }
+

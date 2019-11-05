@@ -282,7 +282,7 @@ function upload_avec1018()
 {
     for (var i in regs_1018) {
         var i1018 = JSON.parse(regs_1018[i]);
-        if (i1018.internet == 'I') {
+        if (i1018.internet == 'I' && i1018.tipo == 'P') {
             var items = {
                 produto  : [],
                 qtde     : [],
@@ -531,10 +531,5 @@ function excluir_dados()
     localStorage.setItem('NB1035', JSON.stringify(regs_1035));
     localStorage.setItem('NB1050', JSON.stringify(regs_1050));    
     localStorage.setItem('NB1080', JSON.stringify(regs_1080));
-
-    //regs_1006 = [];
-    //regs_1017 = [];
-    //regs_1018 = [];
-    //regs_1020 = [];
     //localStorage.clear();
 }

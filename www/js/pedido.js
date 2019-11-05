@@ -169,13 +169,13 @@ $(document).ready(function($){
     $("#i1001_Email").val('');
     $("#i1001_Uf").val('');
     
-    //if (formata_cpf_cnpj(sID)) {
-    //    $("#i1018_Cliente").val(formata_cpf_cnpj(sID));
-    //    } else {
-    //        $("#i1018_Cliente").focus();
-    //        alert('CPF ou CNPJ invalidos');
-    //        return;
-    //    }
+    if (formata_cpf_cnpj(sID)) {
+        $("#i1018_Cliente").val(formata_cpf_cnpj(sID));
+        } else {
+            $("#i1018_Cliente").focus();
+            alert('CPF ou CNPJ invalidos');
+            return;
+        }
 
     sID = $("#i1018_Cliente").val();
     document.getElementById("ibtn_Cliente").disabled = false;
@@ -366,6 +366,7 @@ $(document).ready(function($){
     nQtde    = $("#i1020_Qtde").val().replace(",",".");
     nDesc1   = $("#i1018_Desc1").val();
     
+    if (iPedido == "") { iPedido = 0; }
     if (nDesc1 != 0) { nDesc1 = (1-(nDesc1 / 100)) };
     if (nDesc1 != 0) { nFator = (nFator * nDesc1 ) };
     
@@ -375,10 +376,10 @@ $(document).ready(function($){
         for (var i in regs_1018) {
             var record = JSON.parse(regs_1018[i]);
             if (record.numero > iPedido) { 
-                iPedido = record.numero;
+                iPedido = parseInt(record.numero);
             };
         };
-    iPedido = eval(iPedido+1);
+    iPedido = eval(parseInt(iPedido)+1);
     default_1018(iPedido);
     };
 
