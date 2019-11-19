@@ -263,7 +263,9 @@ function avec1011(sVendedor)
                 for (var i = 0; i < data.nome.length; i++) {
                     var record = JSON.stringify({
                         cnpj        :  data.cnpj[i],
-                        nome        :  data.nome[i]
+                        nome        :  data.nome[i],
+                        fantasia    :  data.fantasia[i],
+                        cidade      :  data.cidade[i]
                     });    
                     regs_1011.push(record);
                 }

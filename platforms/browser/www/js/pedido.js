@@ -42,6 +42,17 @@ var regs_1080 = localStorage.getItem('NB1080');
 regs_1080 = JSON.parse(regs_1080);
 if (regs_1080 == null) { regs_1080 = [] };
 
+var iBase = 0;
+var tamanhoPagina = 10;
+var pagina = 0;
+
+var db = {
+    f1  : [],
+    f2  : [],
+    f3  : [],
+    f4  : []
+};
+
 $(document).ready(function($){
     default_1005();
     default_1006();
@@ -55,11 +66,222 @@ $(document).ready(function($){
 
     $("#i1018_Cliente").focus();
     $("#ibtn_Cliente").click(function(){ default_1001(); });
+    $("#i1001_Lookup").click(function(){ avec1001_lookup(); });            
+    
     $("#ibtn_Prod").click(function(){ default_1007(); });
+    $("#i1007_Lookup").click(function(){ avec1007_lookup(); });        
+    
+    $("#i1011_Lookup").click(function(){ avec1011_lookup(); });
+
+    $("#i1018LBtn").click(function(){ lookup(iBase); });    
+    $("#i1018Prior").click(function(){ lookup_anterior(); });        
+    $("#i1018Next").click(function(){ lookup_proximo(); });    
+    
     $("#ibtn_Salvar").click(function(){ atualizar_1018(); });
     $("#ibtn_Inserir").click(function(){ default_1020(); });
     ler_pedido();    
     excluir_1050();
+});
+
+/// Funcoes para Pesquisa /////////////////////////////////////////////////////////////////
+(paginar = function (iBase) {
+    $("#i1018LGrid tbody tr").remove();
+    if (iBase == 1001) {
+        for (var i = pagina * tamanhoPagina; i < db.f2.length && i < (pagina + 1) *  tamanhoPagina; i++) {
+            var newRow = $('<tbody>');
+            var cols = '<tr>';
+            cols += '<td data-cnpj="' + db.f1[i] + '">' + db.f1[i] + '</td>';
+            cols += '<td>' + db.f2[i] + '</td>';
+            cols += '<td>' + db.f3[i] + '</td>';
+            cols += '<td><button type="button" class="btn btn-success btn-sm" onclick="avec1001_selecionar(this)">Selecionar</button></td>';
+            cols += '</tr>';
+            newRow.append(cols);
+            $("#i1018LGrid").append(newRow);
+        }
+    }
+    if (iBase == 1007) {
+        for (var i = pagina * tamanhoPagina; i < db.f2.length && i < (pagina + 1) *  tamanhoPagina; i++) {
+            var newRow = $('<tbody>');
+            var cols = '<tr>';
+            cols += '<td>' + db.f1[i] + '</td>';                
+            cols += '<td>' + db.f2[i] + '</td>';
+            cols += '<td data-ref="' + db.f3[i] + '">' + db.f3[i] + '</td>';                
+            cols += '<td><button type="button" class="btn btn-success btn-sm" onclick="avec1007_selecionar(this)">Selecionar</button></td>';
+            cols += '</tr>';
+            newRow.append(cols);
+            $("#i1018LGrid").append(newRow);
+        }
+    }
+    if (iBase == 1011) {
+        for (var i = pagina * tamanhoPagina; i < db.f2.length && i < (pagina + 1) *  tamanhoPagina; i++) {
+            var newRow = $('<tbody>');
+            var cols = '<tr>';
+            cols += '<td data-cnpj="' + db.f1[i] + '">' + db.f2[i] + '</td>';
+            cols += '<td>' + db.f3[i] + '</td>';
+            cols += '<td>' + db.f4[i] + '</td>';
+            cols += '<td><button type="button" class="btn btn-success btn-sm" onclick="avec1011_selecionar(this)">Selecionar</button></td>'; 
+            cols += '</tr>';
+            newRow.append(cols);
+            $("#i1018LGrid").append(newRow);            
+        }
+    }
+    $('#i1018Count').text('Pag: ' + (pagina + 1) + ' de ' + Math.ceil(db.f2.length / tamanhoPagina) + ' (' + db.f2.length + ' regs)');    
+    ajustarBotoes();
+});
+
+(ajustarBotoes = function () {
+    $('#i1018Next').prop('disabled', db.f2.length <= tamanhoPagina || pagina >= Math.ceil(db.f2.length / tamanhoPagina) - 1);
+    $('#i1018Prior').prop('disabled', db.f2.length <= tamanhoPagina || pagina == 0);
+});
+
+(lookup_proximo = function () {
+    if (pagina < db.f2.length / tamanhoPagina - 1) {
+            pagina++;
+            paginar(iBase);
+            ajustarBotoes();
+        }    
+});
+
+(lookup_anterior = function () {
+    if (pagina > 0) {
+        pagina--;
+        paginar(iBase);
+        ajustarBotoes();
+    }
+});
+
+(lookup = function (iID) {
+    pagina = 0;    
+    db.f1 = [];    
+    db.f2 = [];    
+    db.f3 = [];    
+    db.f4 = [];    
+    sExp = $("#i1018LText").val();
+    sExp = sExp.toUpperCase();
+    
+    if (iID == 1001) {
+        for (var i in regs_1001) {
+            var record = JSON.parse(regs_1001[i]);
+            var n = record.nome.includes(sExp);
+            if (n == false) { n = record.fantasia.includes(sExp); }
+            if (n == false) { n = record.cid_fat.includes(sExp); }
+            if (n == true) {
+                db.f1.push(record.cnpj);
+                db.f2.push(record.nome);
+                db.f3.push(record.fantasia);
+            }
+        }
+    }    
+    if (iID == 1007) {
+        for (var i in regs_1007) {
+            var record = JSON.parse(regs_1007[i]);
+            var n = record.nome.includes(sExp);
+            if (n == true) {
+                db.f1.push(record.numero);
+                db.f2.push(record.nome);
+                db.f3.push(record.ref_internet);
+            }
+        }
+    }
+    if (iID == 1011) {
+        for (var i in regs_1011) {
+            var record = JSON.parse(regs_1011[i]);
+            var n = record.nome.includes(sExp);
+            if (n == true) {
+                db.f1.push(record.cnpj);
+                db.f2.push(record.nome);
+                db.f3.push(record.fantasia);
+                db.f4.push(record.cidade);
+            }
+        }
+    }
+    paginar(iID);
+});
+
+// Pesquisar Clientes /////////////////////////////////////////////////////////////////////
+(avec1001_lookup = function () {
+    db.f1 = [];    
+    db.f2 = [];    
+    db.f3 = [];    
+    db.f4 = [];        
+    
+    $("#i1018LGrid tbody tr").remove();
+    $("#i1018LText").val('');
+    $("#i1018GCol1").html('CNPJ');
+    $("#i1018GCol2").html('Razão Social');
+    $("#i1018GCol3").html('Fantasia');
+    $('#i1018Count').text('');    
+    
+    $('#iLookup').modal('show');
+    iBase = 1001;
+});
+
+// Selecionando Clientes  /////////////////////////////////////////////////////////////////////
+(avec1001_selecionar = function (ilinha) {
+    var tr = $(ilinha).closest('tr');
+    var cliente = tr.find('td[data-cnpj]').data('cnpj');
+    if (cliente !== '') {
+        $('#i1018_Cliente').val(cliente);
+        default_1001();
+    }
+    $('#i1018LFechar').click();
+});
+
+// Pesquisar Produtos /////////////////////////////////////////////////////////////////////
+(avec1007_lookup = function () {
+    db.f1 = [];    
+    db.f2 = [];    
+    db.f3 = [];    
+    db.f4 = [];        
+    
+    $("#i1018LGrid tbody tr").remove();
+    $("#i1018LText").val('');
+    $("#i1018GCol1").html('Codigo');
+    $("#i1018GCol2").html('Nome');
+    $("#i1018GCol3").html('Referencia');
+    $('#i1018Count').text('');    
+    
+    $('#iLookup').modal('show');
+    iBase = 1007;
+});
+
+// Selecionando Produtos  /////////////////////////////////////////////////////////////////////
+(avec1007_selecionar = function (ilinha) {
+    var tr = $(ilinha).closest('tr');
+    var produto = tr.find('td[data-ref]').data('ref');
+    if (produto !== '') { 
+        $('#i1020_Ref').val(produto);
+        default_1007();
+    }
+    $('#i1018LFechar').click();
+});
+
+// Pesquisar Transportadora /////////////////////////////////////////////////////////////////////
+(avec1011_lookup = function() {
+    db.f1 = [];    
+    db.f2 = [];    
+    db.f3 = [];    
+    db.f4 = [];        
+    
+    $("#i1018LGrid tbody tr").remove();
+    $("#i1018LText").val('');
+    $("#i1018GCol1").html('Razão Social');
+    $("#i1018GCol2").html('Nome Fantasia');
+    $("#i1018GCol3").html('Cidade');
+    $('#i1018Count').text('');    
+    
+    $('#iLookup').modal('show');
+    iBase = 1011;
+});
+
+// Selecionando Transportadora  /////////////////////////////////////////////////////////////////////
+(avec1011_selecionar = function (ilinha) {
+    var tr = $(ilinha).closest('tr');
+    var cliente = tr.find('td[data-cnpj]').data('cnpj');
+    if (cliente !== '') {
+        $('#i1011_Cnpj').find('[value="' + cliente + '"]').attr('selected', true);
+    }
+    $('#i1018LFechar').click();
 });
 
 /// Atualizar 1018  ///////////////////////////////////////////////////////////////////////
@@ -183,6 +405,7 @@ $(document).ready(function($){
     sID = sID.replace("/","");
     sID = sID.replace("-","");
     document.getElementById("ibtn_Cliente").disabled = false;
+    document.getElementById("i1001_Lookup").disabled = false;
     document.getElementById("i1018_Cliente").disabled = false;
     
     $('#i1001_Nome').val('');
@@ -206,6 +429,7 @@ $(document).ready(function($){
             $("#i1018_Cliente").val(record.cnpj)
             
             document.getElementById("ibtn_Cliente").disabled = true;
+            document.getElementById("i1001_Lookup").disabled = true;
             document.getElementById("i1018_Cliente").disabled = true;
             $('#i1018_Obs').focus();
         };
@@ -408,6 +632,7 @@ $(document).ready(function($){
     
     document.getElementById("i1018_Cliente").disabled = true;
     document.getElementById("ibtn_Cliente").disabled = true;
+    document.getElementById("i1001_Lookup").disabled = true;
     document.getElementById("i1035_Numero").disabled = true;     
     document.getElementById("i1018_Desc1").disabled = true;
 

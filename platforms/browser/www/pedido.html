@@ -68,6 +68,7 @@
                                 <label>Cod.Vendedor:<input type="text" class="form-control form-control-sm" id="i1018_Vendedor" name="i1018_Vendedor" size="7" maxlength="5" readonly="true" style="text-transform:uppercase"></label>&nbsp;
                                 <br>
                                 <label>CNPJ:<input type="text" class="form-control form-control-sm" id="i1018_Cliente" name="i1018_Cliente" size="20" maxlength="20" style="text-transform:uppercase" required="required"></label>
+                                <button type="button" class="btn btn-outline-secondary align-baseline" id="i1001_Lookup" name="i1001_Lookup" ><i class="fas fa-search"></i>Procurar</button>
                                 <button type="button" class="btn btn-outline-secondary align-baseline" id="ibtn_Cliente" >...</button>&nbsp;
                                 <label>Razao Social:<input type="text" class="form-control form-control-sm" id="i1001_Nome" name="i1001_Nome" size="60" maxlength="60" style="text-transform:uppercase" required="required"></label>
                                 <br>
@@ -81,6 +82,7 @@
                                 <label>Tab.Preco:<select class="form-control form-control-sm"  id="i1035_Numero"></select></label>
                                 <br>
                                 <label>Transportadora:<select class="form-control form-control-sm"  id="i1011_Cnpj"></select></label>								
+                                <button type="button" class="btn btn-outline-secondary align-baseline" id="i1011_Lookup" name="i1011_Lookup" ><i class="fas fa-search"></i>Procurar</button>
                                 <br>
                                 <label>Desc Canal:<input type="number" class="form-control form-control-sm" id="i1018_Desc1" size="5" maxlength="10" style="text-transform:uppercase" required="required"></label>&nbsp;
                                 <label>Desc Financeiro:<input type="number" class="form-control form-control-sm" id="i1018_Desc3" size="5" maxlength="10" style="text-transform:uppercase" required="required"></label>&nbsp;
@@ -102,6 +104,7 @@
                             <br>
                             <div class="col-md-10" id="i1018_body">
                                 <label>Ref Internet:<input type="text" class="form-control form-control-sm" id="i1020_Ref" size="5"></label>
+                                <button type="button" class="btn btn-outline-secondary align-baseline" id="i1007_Lookup" name="i1007_Lookup" ><i class="fas fa-search"></i>Procurar</button>
                                 <button type="button" class="btn btn-outline-secondary align-baseline" id="ibtn_Prod">...</button>&nbsp;                                
                                 <label>Produto:<input type="text" class="form-control form-control-sm" id="i1020_Prod" size="7" readonly="true"></label>
                                 <label>Descricao:<input type="text" class="form-control form-control-sm" id="i1007_Nome" size="25" maxlength="60" style="text-transform:uppercase" readonly="true" tabindex="-1"></label>
@@ -169,7 +172,46 @@
                 </div>
             </div>
         </div>
-        
+
+    <!-- Modal Pesquisa -->
+    <div class="modal fade" data-backdrop="static" id="iLookup">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header"><h6 class="modal-title"><p style="font-family: 'Tahoma'; font-size: small" id="i1018LTitulo" name="i1018LTitulo"></p></h6></div>
+                <div class="modal-body">
+                    <form method="post">
+                        <div class="form-group row">                        
+                            <label for="i1018LText" class="col-sm-2 col-form-label">Pesquisar:</label>
+                            <div class="col-sm-8"><input type="text" class="form-control form-control-sm" id="i1018LText" name="i1018LText" style="text-transform:uppercase"></div>
+                            <div class="col-sm-2"><button type="button" class="btn btn-primary btn-sm align-baseline" id="i1018LBtn" name="i1018LBtn">Pesquisar</button></div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <table class="table table-sm table-hover" id="i1018LGrid" name="i1018LGrid" style="font-size: 13px">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th><span id="i1018GCol1" name="i1018GCol1"></span></th>
+                                            <th><span id="i1018GCol2" name="i1018GCol2"></span></th>
+                                            <th><span id="i1018GCol3" name="i1018GCol3"></span></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-primary btn-sm align-baseline" id="i1018Prior" name="i1018Prior"><i class="fa fa-arrow-circle-left"></i> Anterior</button>&nbsp;
+                                <span id="i1018Count" style="font-family: 'Tahoma'; font-size: small"></span>&nbsp;
+                                <button type="button" class="btn btn-primary btn-sm align-baseline" id="i1018Next" name="i1018Next"><i class="fa fa-arrow-circle-right"></i> Proximo</button>&nbsp;
+                            </div>                            
+                        </div>
+                    </form>
+                <div class="modal-footer"><button type="button" class="btn btn-secondary btn-sm align-baseline" data-dismiss="modal" id="i1018LFechar" name="i1018LFechar">Fechar</button></div>
+                </div>
+            </div>
+        </div>                
+    </div>    
         
     </body>
 </html>
