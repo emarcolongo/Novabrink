@@ -332,7 +332,6 @@ function upload_avec1018()
                     $('#i1006_Erro').modal('show');
                 }
             });
-
         }
     }
 }
@@ -448,6 +447,7 @@ function btnEntrar(e)
 function btnAcesso(e)
 {
     $("#loader").show();
+    $("#btnAcesso").attr("disabled", true);
     setTimeout(function(){ atualizar_dados(); }, 2000);
 }
 
@@ -500,6 +500,7 @@ function atualizar_dados()
                 $('#i1006_ErroMsg').html("<strong>Login inválido.</strong></br>Por favor, verifique seu ID Vendedor e Senha");
                 $('#i1006_Erro').modal('show');
             }
+            $("#btnAcesso").attr("disabled", false);
         },
         error: function(xhr, textStatus, error){
             console.log(error);

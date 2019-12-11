@@ -476,8 +476,8 @@ function atualizar_dados()
                 regs_1006.push(record);
                 localStorage.setItem('NB1006', JSON.stringify(regs_1006));
                 //
-                //upload_avec1001(sVendedor);    
-                //upload_avec1018();
+                upload_avec1001(sVendedor);    
+                upload_avec1018();
                 excluir_pedidos();
                 excluir_dados();
                 //
