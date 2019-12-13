@@ -28,7 +28,6 @@ if (regs_1011 == null) { regs_1011 = [] };
 
 var regs_1017 = localStorage.getItem('NB1017');
 regs_1017 = JSON.parse(regs_1017);
-avec1017();
 
 var regs_1018 = localStorage.getItem('NB1018');
 regs_1018 = JSON.parse(regs_1018);
@@ -456,6 +455,8 @@ function atualizar_dados()
 {
     var sVendedor = $("#i1006_Numero").val().toUpperCase();
     var sPass = $("#i1006_Senha").val().toUpperCase();
+    var versao_app = "";
+    var versao_srv = "";
     
     $.ajax({
         type: 'POST',
@@ -467,7 +468,29 @@ function atualizar_dados()
                "PASS"   : sPass
               }),
         success: function (data) {
+            var iversao = 0;
+            if (jQuery.isEmptyObject(regs_1017) == false) { iversao = 1;}
+            
+            if ((data.versao != "") && (iversao == 0)) {
+                regs_1017 = [];
+                var record = JSON.stringify({
+                    versao : data.versao
+                });
+                regs_1017.push(record);
+                localStorage.setItem('NB1017', JSON.stringify(regs_1017));
+                versao_app = data.versao;
+            }
+            if (iversao != 0) {
+                for (var y in regs_1017) {
+                    var i1017_tmp = JSON.parse(regs_1017[y]);                    
+                    versao_app = i1017_tmp.versao;
+                }
+            }
+            versao_srv = data.versao[0];
+            versao_app = versao_app[0];
+            
             if (data.nome != "") {
+                console.log('ok1');
                 regs_1006 = [];                
                 var record = JSON.stringify({
                     numero  :  data.numero,
@@ -482,25 +505,32 @@ function atualizar_dados()
                 excluir_pedidos();
                 excluir_dados();
                 //
-                avec1001(sVendedor);
-                avec1002();
-                avec1005();
-                avec1007();
-                avec1011(sVendedor);
-                avec1017();
-                avec1035(sVendedor);
-                avec1080(sVendedor);
-
-                $('#i1006_UpdMsg').html("<strong>Concluido.</strong></br>Dados Atualizados com Sucesso");
-                $('#i1006_Update').modal('show');
-
-                $("#loader").hide();
+                if (versao_srv == versao_app) {
+                    console.log('ok2');
+                    avec1001(sVendedor);
+                    avec1002();
+                    avec1005();
+                    avec1007();
+                    avec1011(sVendedor);
+                    avec1035(sVendedor);
+                    avec1080(sVendedor);
+                    $('#i1006_UpdMsg').html("<strong>Concluido.</strong></br>Dados Atualizados com Sucesso");
+                    $('#i1006_Update').modal('show');
+                }
+                if (versao_srv != versao_app) {
+                    $('#i1006_ErroMsg').html("<strong>Versão Incorreta.</strong></br>A versão instalada não é compativel com a atual<br>\n\
+                                                      Versão Atual: "+versao_srv+"</br>\n\
+                                                      Versão Instalada: "+versao_app);
+                    $('#i1006_Erro').modal('show');
+                }
                 //resumo_load();
                 //location.href='dash.html';
-            } else {
+            }
+            if (data.nome == "") {
                 $('#i1006_ErroMsg').html("<strong>Login inválido.</strong></br>Por favor, verifique seu ID Vendedor e Senha");
                 $('#i1006_Erro').modal('show');
             }
+            $("#loader").hide();            
             $("#btnEntrar").attr("disabled", false);
             $("#btnAcesso").attr("disabled", false);
         },
