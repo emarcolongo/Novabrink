@@ -490,7 +490,6 @@ function atualizar_dados()
             versao_app = versao_app[0];
             
             if (data.nome != "") {
-                console.log('ok1');
                 regs_1006 = [];                
                 var record = JSON.stringify({
                     numero  :  data.numero,

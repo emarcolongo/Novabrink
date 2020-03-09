@@ -490,7 +490,6 @@ function atualizar_dados()
             versao_app = versao_app[0];
             
             if (data.nome != "") {
-                console.log('ok1');
                 regs_1006 = [];                
                 var record = JSON.stringify({
                     numero  :  data.numero,
@@ -567,10 +566,10 @@ function excluir_pedidos() {
         }
     }
     
-    if (new_array_1020.length > 0) {
-        regs_1020 = [];
-        localStorage.setItem('NB1020', JSON.stringify(regs_1020));
+    regs_1020 = [];
+    localStorage.setItem('NB1020', JSON.stringify(regs_1020));
     
+    if (new_array_1020.length > 0) {
         regs_1020 = new_array_1020;
         localStorage.setItem('NB1020', JSON.stringify(regs_1020));
     }
@@ -601,10 +600,10 @@ function excluir_pedidos() {
             new_array_1018.push(i1018);
         }
     }
+    regs_1018 = [];
+    localStorage.setItem('NB1018', JSON.stringify(regs_1018));
+    
     if (new_array_1018.length > 0) {
-        regs_1018 = [];
-        localStorage.setItem('NB1018', JSON.stringify(regs_1018));
-        
         regs_1018 = new_array_1018;
         localStorage.setItem('NB1018', JSON.stringify(regs_1018));
     }
