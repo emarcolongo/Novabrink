@@ -565,7 +565,7 @@ function excluir_pedidos() {
             }    
         }
     }
-    
+    //certificando que ira apagar os dados para evitar envio dobrado, caso só exusta pedidos
     regs_1020 = [];
     localStorage.setItem('NB1020', JSON.stringify(regs_1020));
     
@@ -600,6 +600,7 @@ function excluir_pedidos() {
             new_array_1018.push(i1018);
         }
     }
+    //certificando que ira apagar os dados para evitar envio dobrado, caso só exusta pedidos
     regs_1018 = [];
     localStorage.setItem('NB1018', JSON.stringify(regs_1018));
     
